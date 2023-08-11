@@ -88,7 +88,7 @@ def main() -> None:
     # 1 : READING AND PREPROCESSING
 
     # Reading dataset
-    df = pd.read_excel('data/table-s1-sigmut-indel.xlsx')
+    df = pd.read_excel('data/cohort-dataset.xlsx')
 
     # Drop non naive patients
     df = df.loc[df["Cohort"] == "Naive"]
@@ -312,6 +312,11 @@ def main() -> None:
 
     else:
         raise ValueError("Invalid value of architecture. The valid choices are gcn and gat")
+
+    # Write output in .xlsx file, for LogReg and sigmut + other case
+    if architecture == 'logistic-regression' and sigmut == 'comb':
+        df["LogReg output sigmut+others"] = scores
+        df.to_excel("data/cohort-dataset-with-logreg-output.xlsx")
 
     print("Finished !")
 

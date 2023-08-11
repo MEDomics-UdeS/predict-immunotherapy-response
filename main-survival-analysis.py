@@ -87,7 +87,7 @@ def main() -> None:
     # 1 : READING AND PREPROCESSING
 
     # Reading dataset
-    df = pd.read_excel('data/table-s1-sigmut-indel.xlsx')
+    df = pd.read_excel('data/cohort-dataset.xlsx')
 
     # Drop non naive patients
     df = df.loc[df["Cohort"] == "Naive"]

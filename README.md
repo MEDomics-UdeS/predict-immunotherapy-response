@@ -91,7 +91,8 @@ To see examples of executions and results, you can read the following notebooks 
 ## Project Tree
 ```
 ├── data
-│   ├── table-s1-sigmut-indel.xlsx                  <- dataset from the reference article with mutational signatures
+│   ├── cohort-dataset.xlsx                         <- dataset from the reference article with mutational signatures
+│   ├── cohort-dataset-with-logreg-output.xlsx      <- dataset from the reference article with mutational signatures and the output of the logistic regression model (class 1 probability)
 |
 ├── evaluation                           
 │   ├── ClassificationMetrics.py                    <- class containing evaluation metrics for binary classification
@@ -110,7 +111,7 @@ To see examples of executions and results, you can read the following notebooks 
 │   ├── GCNClassifier.py                            <- class handling the GCN architecture and its forward pass
 │   ├── LogisticRegression.py                       <- class handling the logistic regression architecture and its forward pass
 |
-├── results                                         <- .png files containing the results of executions                           
+├── results                                         <- .png files containing the results of Python scripts                           
 |
 ├── utils                           
 │   ├── featureSelection.py                         <- class handling the selection of most important features
