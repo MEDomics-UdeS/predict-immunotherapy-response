@@ -87,3 +87,47 @@ To see examples of executions and results, you can read the following notebooks 
 - `B.2-survival-analysis-cox-sbs-indel.ipynb` : comparison between with only SBS signatures, with only INDEL signatures, and with combination of both, with the Cox Model. 
 - `B.3-survival-analysis-gcn-cox-sigmut.ipynb` : comparison between without mutational signatures, with only mutational signatures, and with combination of reference article biomarkers and mutational signatures, with the Graph Convolutional Network Cox Model.
 - `B.4-survival-analysis-gcn-cox-sbs-indel.ipynb` : comparison between with only SBS signatures, with only INDEL signatures, and with combination of both, with the Graph Neural Network Cox Model. 
+
+## Project Tree
+```
+├── data
+│   ├── table-s1-sigmut-indel.xlsx                  <- dataset from the reference article with mutational signatures
+|
+├── evaluation                           
+│   ├── ClassificationMetrics.py                    <- class containing evaluation metrics for binary classification
+│   ├── SurvivalMetrics.py                          <- class containing evaluation metrics for survival analysis
+|
+├── manage                           
+│   ├── CoxTrainTestManager.py                      <- class handling train-test process of the Cox Model
+│   ├── GNNClassifierTrainTestManager.py            <- class handling train-test process of the GNN classifier
+│   ├── GNNCoxTrainTestManager.py                   <- class handling train-test process of the GNN Cox Model
+│   ├── LogisticRegressionTrainTestManager.py       <- class handling train-test process of the logistic regression model
+|
+├── models                           
+│   ├── BuildGraph.py                               <- class handling the building of the graph
+│   ├── CoxModel.py                                 <- class handling the Cox Model architecture and its forward pass
+│   ├── GATClassifier.py                            <- class handling the GAT architecture and its forward pass
+│   ├── GCNClassifier.py                            <- class handling the GCN architecture and its forward pass
+│   ├── LogisticRegression.py                       <- class handling the logistic regression architecture and its forward pass
+|
+├── results                                         <- .png files containing the results of executions                           
+|
+├── utils                           
+│   ├── featureSelection.py                         <- class handling the selection of most important features
+│   ├── preProcessing.py                            <- class handling the data preprocessing
+|
+├── .gitignore
+├── A.1-clf-logreg-sigmut.ipynb                     <- notebook example for classification with logistic regression for studying mutational signatures impact    
+├── A.2-clf-logreg-sbs-indel.ipynb                  <- notebook example for classification with logistic regression for studying SBS / INDEL signatures impact  
+├── A.3-clf-gcn-sigmut.ipynb                        <- notebook example for classification with GCN for studying mutational signatures impact     
+├── A.4-clf-gcn-sbs-indel.ipynb                     <- notebook example for classification with GCN for studying SBS / INDEL signatures impact   
+├── B.1-survival-analysis-cox-sigmut.ipynb          <- notebook example for survival analysis with Cox Model for studying mutational signatures impact    
+├── B.2-survival-analysis-cox-sbs-indel.ipynb       <- notebook example for survival analysis with Cox Model for studying SBS / INDEL mutational signatures impact    
+├── B.3-survival-analysis-gcn-cox-sigmut.ipynb      <- notebook example for survival analysis with GCN Cox Model for studying mutational signatures impact    
+├── B.4-survival-analysis-gcn-cox-sbs-indel.ipynb   <- notebook example for survival analysis with GCN Cox Model for studying SBS / INDEL mutational signatures impact  
+├── LICENSE 
+├── main-classification.py                          <- main script for classification problem    
+├── main-survivalAnalysis.py                        <- main script for survival analysis problem  
+├── README.md
+├── requirements.txt
+```
