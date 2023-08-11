@@ -3,7 +3,7 @@ This project contains the code which predicts response to immune checkpoint inhi
 
 This project is in collaboration with the *MEDomics UdeS* laboratory from the Sherbrooke University, and a biology laboratory of Sherbrooke University.
 
-The internship report is available on : ...
+The internship report is available on : https://bit.ly/3KBhwb2 
 
 ## Installation
 Before running codes, please follow these steps to make sure you have all dependencies :
