@@ -5,6 +5,17 @@ This project is in collaboration with the *MEDomics UdeS* laboratory from the Sh
 
 The internship report is available on : https://bit.ly/3KBhwb2 
 
+## Project summary
+The goal of this project is to create a machine learning model which **predicts if a patient suffering from cancer will respond or not to an immunotherapy treatment called immune checkpoint inhibition**. For that, we collected data from the following article https://doi.org/10.1158/1078-0432.CCR-20-1163, which contains 82 patients with 6 features called biomarkers (age, exome TMB, genome TMB, CD8+ T cell score, M1M2 expression, CD274 expression), and we added new features / biomarkers called mutational signatures (SBS and INDEL). We want to know if mutational signatures give better performances.
+
+First, we built a **classification model** which predicts if the disease will progress by a time t. 3 models have been implemented : Logistic Regression, Graph Convolutional Network (GCN), and Graph Attention Network (GAT).
+
+Next, we built a **survival analysis model** which predicts the risk level for a patient to die and for a disease to progress, and which estimates the survival probability and the no progression of the disease along days. 3 models have been implemented : Cox Model (which is equivalent to logistic regression but in a survival analysis context), GCN Cox Model, and GAT Cox Model.
+
+To know if mutational signatures are predictive features, we tested the models without mutational signatures and with mutational signatures. 
+
+To have more details, you can read the internship report (link above).
+
 ## Installation
 Before running codes, please follow these steps to make sure you have all dependencies :
 1. Clone the repository
@@ -12,11 +23,9 @@ Before running codes, please follow these steps to make sure you have all depend
 3. Create a Python virtual environment. The creation and activation commands depending on your OS are available on : https://docs.python.org/3/library/venv.html 
 4. Install the requirements : ```pip install -r requirements.txt```
 
-You are ready to begin !
-
 ## Executions
 
-The pipelines needs some arguments, described below :
+The pipelines need some arguments, described below :
 - --sigmut : to include mutational signatures or not, and how.
     - `no-sigmut` : no mutational signatures. Only the biomarkers from the reference article are included.
     - `only-sigmut-sbs` : include only SBS mutational signatures.
@@ -60,7 +69,7 @@ To see examples of executions and results, you can read the following notebooks 
 - `A.1-clf-logreg-sigmut.ipynb` : comparison between without mutational signatures, with only mutational signatures, and with combination of reference article biomarkers and mutational signatures, with the logistic regression. 
 - `A.2-clf-logreg-sbs-indel.ipynb` : comparison between with only SBS signatures, with only INDEL signatures, and with combination of both, with the logistic regression. 
 - `A.3-clf-gcn-sigmut.ipynb` : comparison between without mutational signatures, with only mutational signatures, and with combination of reference article biomarkers and mutational signatures, with the Graph Convolutional Network.
-- `A.4-clf-gcn-sbs-indel.ipynb` : comparison between with only SBS signatures, with only INDEL signatures, and with combination of both, with the Graph Neural Network. 
+- `A.4-clf-gcn-sbs-indel.ipynb` : comparison between with only SBS signatures, with only INDEL signatures, and with combination of both, with the Graph Convolutional Network. 
 
 ### Survival analysis problem
 
@@ -86,7 +95,7 @@ To see examples of executions and results, you can read the following notebooks 
 - `B.1-survival-analysis-cox-sigmut.ipynb` : comparison between without mutational signatures, with only mutational signatures, and with combination of reference article biomarkers and mutational signatures, with the Cox Model. 
 - `B.2-survival-analysis-cox-sbs-indel.ipynb` : comparison between with only SBS signatures, with only INDEL signatures, and with combination of both, with the Cox Model. 
 - `B.3-survival-analysis-gcn-cox-sigmut.ipynb` : comparison between without mutational signatures, with only mutational signatures, and with combination of reference article biomarkers and mutational signatures, with the Graph Convolutional Network Cox Model.
-- `B.4-survival-analysis-gcn-cox-sbs-indel.ipynb` : comparison between with only SBS signatures, with only INDEL signatures, and with combination of both, with the Graph Neural Network Cox Model. 
+- `B.4-survival-analysis-gcn-cox-sbs-indel.ipynb` : comparison between with only SBS signatures, with only INDEL signatures, and with combination of both, with the Graph Convolutional Network Cox Model. 
 
 ## Project Tree
 ```
