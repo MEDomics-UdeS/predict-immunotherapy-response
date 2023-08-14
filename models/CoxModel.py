@@ -19,10 +19,8 @@ class CoxModel:
         Train the Cox Model with estimating hazard function parameters.
 
         ### Parameters :
-        - X (n_samples, n_features) : numpy array containing features of each
-        sample
-        - y (n_samples, ) : numpy array containing the event status and the
-        time surviving of each sample.
+        - X (n_samples, n_features) : numpy array containing features of each ample
+        - y (n_samples, ) : numpy array containing the event status and the time surviving of each sample.
 
         ### Returns :
         None
@@ -35,8 +33,7 @@ class CoxModel:
         Predict the risk score.
 
         ### Parameters :
-        - X : X (n_samples, n_features) : numpy array containing features of
-        each sample
+        - X : X (n_samples, n_features) : numpy array containing features of each sample
 
         ### Returns :
         numpy array (n_samples, ) containing the risk score of each sample
@@ -44,14 +41,12 @@ class CoxModel:
         return self.model.predict(X)
 
     def find_cutoff(self,
-                    risk_scores: np.ndarray) -> float:
+                    risk_scores: np.ndarray[float]) -> float:
         """
-        Find cutoff between high risk and low risk with computing median risk
-        scores.
+        Find cutoff between high risk and low risk with computing median risk scores.
 
         ### Parameters :
-        - risk_scores (n_samples, ) : numpy array containing the risk score of
-        each sample
+        - risk_scores (n_samples, ) : numpy array containing the risk score of each sample
 
         ### Returns :
         The cutoff between high risk and low risk score
@@ -59,14 +54,13 @@ class CoxModel:
         return np.median(risk_scores)
 
     def predict_class(self,
-                      risk_scores: np.ndarray,
-                      cutoff: float) -> np.ndarray:
+                      risk_scores: np.ndarray[float],
+                      cutoff: float) -> np.ndarray[int]:
         """
         Predict the risk class, 1 if high, 0 otherwise.
 
         ### Parameters :
-        - risk_scores (n_samples, ) : numpy array containing the risk score of
-        each sample
+        - risk_scores (n_samples, ) : numpy array containing the risk score of each sample
         - cutoff : the cutoff between high risk and low risk
 
         ### Returns :

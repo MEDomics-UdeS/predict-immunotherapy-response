@@ -98,10 +98,7 @@ def main() -> None:
 
     # Relabel patients (t = 183 days = 6 months)
     t = 183
-    df = preProcessing.relabel_patients(df,
-                                        "Progression_1",
-                                        "Time to progression (days)",
-                                        t)
+    df = preProcessing.relabel_patients(df, "Progression_1", "Time to progression (days)", t)
 
     # Normalize initial biomarkers
     features_to_normalize = ["Age at advanced disease diagnosis",
@@ -276,9 +273,7 @@ def main() -> None:
         raise ValueError("Invalid name of problem. The valid choices are : no-sigmut, only-sigmut, and comb.")
 
     # Compute feature importance
-    features_name = featureSelection.feature_importance(df.loc[:, features_name],
-                                                        y,
-                                                        False)
+    features_name = featureSelection.feature_importance(df.loc[:, features_name], y, False)
 
     # Select the most n_features important features
     if n_features < len(features_name):
@@ -323,18 +318,14 @@ def main() -> None:
     # 4 : EVALUATE PERFORMANCES
 
     # Classification metrics
-    fpr, tpr, thresholds = ClassificationMetrics.compute_roc_curve(y,
-                                                                   scores)
-    sensitivity, specificity = ClassificationMetrics.compute_sensitivity_specificity(y,
-                                                                                     classes)
-    auc = ClassificationMetrics.compute_auc(y,
-                                            scores)
+    fpr, tpr = ClassificationMetrics.compute_roc_curve(y, scores)
+    sensitivity, specificity = ClassificationMetrics.compute_sensitivity_specificity(y, classes)
+    auc = ClassificationMetrics.compute_auc(y, scores)
 
     if architecture == "logistic-regression":
         # SHAP values
         X_torch = torch.from_numpy(X).float()
-        explainer = shap.DeepExplainer(manager.model,
-                                       X_torch)
+        explainer = shap.DeepExplainer(manager.model, X_torch)
         shap_values = explainer.shap_values(X_torch)
         expected_values = explainer.expected_value
 

@@ -24,7 +24,7 @@ class preProcessing:
         return df.dropna(axis=0)
 
     @staticmethod
-    def normalize_data(X: np.ndarray) -> np.ndarray:
+    def normalize_data(X: np.ndarray[np.ndarray[float]]) -> np.ndarray[np.ndarray[float]]:
         """
         Normalize the numpy array using the Standard Scaler.
 
@@ -47,12 +47,9 @@ class preProcessing:
 
         The 4 possibles cases are :
         - status = 1 & time < t : 1 : the event occured during the window [0,t]
-        - status = 1 & time > t : 0 : the event occured but after time t. So at
-        time t, the event has not occured yet.
-        - status = 0 & time < t : x : we don't know what happened between time
-        and t. We drop these censored patients
-        - status = 0 & time > t : 0 : we know during the the window [0,t], the
-        event has not occured.
+        - status = 1 & time > t : 0 : the event occured but after time t. So at time t, the event has not occured yet.
+        - status = 0 & time < t : x : we don't know what happened between time and t. We drop these censored patients
+        - status = 0 & time > t : 0 : we know during the the window [0,t], the event has not occured.
 
         ### Parameters :
         - df : the dataframe to update

@@ -31,23 +31,20 @@ class GNNClassifierTrainTestManager:
               n_epochs: int,
               lr: float,
               reg: float,
-              train_index: list) -> tuple[np.ndarray, np.ndarray]:
+              train_index: list[int]) -> tuple[list[float], list[float]]:
         """
         Train the model for n_epochs with 80% train 20% validation.
 
         ### Parameters :
-        - nx_graph : the networkx graph containing the features and the label
-        of each sample, and the graph connectivity
+        - nx_graph : the networkx graph containing the features and the label of each sample, and the graph connectivity
         - n_epochs : the number of epochs.
         - lr : the learning rate for the gradient descent
         - reg : the regularization factor in optimizer
         - train_index : the dataset index of each train sample
 
         ### Returns :
-        - train_loss (n_epochs, ) : list containing the train loss for
-        each epoch
-        - val_loss (n_epochs, ) : list containing the validation loss
-        for each epoch
+        - train_loss (n_epochs, ) : list containing the train loss for each epoch
+        - val_loss (n_epochs, ) : list containing the validation loss for each epoch
         """
 
         # Initialize train loss and validation loss lists
@@ -55,17 +52,14 @@ class GNNClassifierTrainTestManager:
 
         # Define loss function and optimizer
         loss_function = torch.nn.BCELoss()
-        optimizer = torch.optim.Adam(self.model.parameters(),
-                                     lr=lr,
-                                     weight_decay=reg)
+        optimizer = torch.optim.Adam(self.model.parameters(), lr=lr, weight_decay=reg)
 
         for epoch in range(n_epochs):
 
             # Set train-validation set
-            index_train, index_val, node_train, node_val = train_test_split(
-                [i for i in range(len(train_index))],
-                train_index,
-                test_size=0.2)
+            index_train, index_val, node_train, node_val = train_test_split([i for i in range(len(train_index))],
+                                                                            train_index,
+                                                                            test_size=0.2)
 
             # Build train graph with removing validation nodes
             nx_graph_train = nx_graph.copy()
@@ -79,12 +73,10 @@ class GNNClassifierTrainTestManager:
             optimizer.zero_grad()
 
             # Forward pass on training graph
-            out_train = self.model.forward(pyg_graph_train.x,
-                                           pyg_graph_train.edge_index)
+            out_train = self.model.forward(pyg_graph_train.x, pyg_graph_train.edge_index)
 
             # Compute train loss
-            loss_train = loss_function(out_train,
-                                       pyg_graph_train.y)
+            loss_train = loss_function(out_train, pyg_graph_train.y)
 
             # Add train loss to train_loss list
             train_loss_list.append(loss_train.item())
@@ -99,8 +91,7 @@ class GNNClassifierTrainTestManager:
             pyg_graph = from_networkx(nx_graph)
 
             # Forward pass on validation set
-            out_val = self.model.forward(pyg_graph.x,
-                                         pyg_graph.edge_index)[index_val]
+            out_val = self.model.forward(pyg_graph.x, pyg_graph.edge_index)[index_val]
 
             # Compute validation loss
             loss_val = loss_function(out_val, pyg_graph.y[index_val])
@@ -111,24 +102,23 @@ class GNNClassifierTrainTestManager:
         return train_loss_list, val_loss_list
 
     def leave_one_out_cv(self,
-                         X: np.ndarray,
-                         y: np.ndarray,
-                         group: np.ndarray,
+                         X: np.ndarray[np.ndarray[float]],
+                         y: np.ndarray[int],
+                         group: np.ndarray[int | str],
                          n_epochs: int,
                          lr: float,
                          reg: float,
-                         max_neighbors: int) -> tuple[np.ndarray,
-                                                      np.ndarray,
-                                                      np.ndarray,
-                                                      np.ndarray,
+                         max_neighbors: int) -> tuple[np.ndarray[float],
+                                                      np.ndarray[int],
+                                                      list[float],
+                                                      list[float],
                                                       nx.DiGraph]:
         """
         Execute the leave one out cross validation to find test scores and
         labels.
 
         ### Parameters :
-        - X (n_samples, n_features) : numpy array containing the features of
-        each sample
+        - X (n_samples, n_features) : numpy array containing the features of each sample
         - y (n_samples,) : numpy array containing the label of each sample
         - group (n_samples, ) : numpy array containing the group of each sample
         - n_epochs : the number of epochs.
@@ -137,16 +127,12 @@ class GNNClassifierTrainTestManager:
         - max_neighbors : the maximum number of neighbors per sample
 
         ### Returns :
-        - test_scores (n_samples, ) : numpy array containing the test score of
-        each sample
-        - test_classes (n_samples, ) : numpy array containing the test class of
-        each sample
-        - train_losses (n_samples, n_epochs) : list containing the train loss
-        for each sample and epoch
-        - val_losses (n_samples, n_epochs) : list containing the validation
-        loss for each sample and epoch
-        - nx_graph : the networkx graph used for training containing the
-        features and the label of each sample, and the graph connectivity
+        - test_scores (n_samples, ) : numpy array containing the test score of each sample
+        - test_classes (n_samples, ) : numpy array containing the test class of each sample
+        - train_losses (n_samples, n_epochs) : list containing the train loss for each sample and epoch
+        - val_losses (n_samples, n_epochs) : list containing the validation loss for each sample and epoch
+        - nx_graph : the networkx graph used for training containing the features and the label of each sample, and the
+        graph connectivity
         """
 
         # Split dataframe in n_samples groups
@@ -196,16 +182,13 @@ class GNNClassifierTrainTestManager:
             pyg_graph = from_networkx(nx_graph)
 
             # Forward pass on test set
-            score_test = self.model.forward(
-                pyg_graph.x,
-                pyg_graph.edge_index).detach().numpy().reshape((1, -1))[0]
+            score_test = self.model.forward(pyg_graph.x,
+                                            pyg_graph.edge_index).detach().numpy().reshape((1, -1))[0]
 
-            class_test = self.model.predict_class(
-                pyg_graph.x,
-                pyg_graph.edge_index).detach().numpy().reshape((1, -1))[0]
+            class_test = self.model.predict_class(pyg_graph.x,
+                                                  pyg_graph.edge_index).detach().numpy().reshape((1, -1))[0]
 
             # Add score and class to scores and classes arrays
-
             test_scores[test_index] = score_test[test_index]
             test_classes[test_index] = class_test[test_index]
 

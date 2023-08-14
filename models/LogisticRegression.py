@@ -20,8 +20,7 @@ class LogisticRegression(torch.nn.Module):
         super().__init__()
 
         # Classifier layer
-        self.linear = Linear(in_features=n_features,
-                             out_features=1)
+        self.linear = Linear(in_features=n_features, out_features=1)
 
     def forward(self,
                 x: Tensor) -> Tensor:
@@ -32,8 +31,7 @@ class LogisticRegression(torch.nn.Module):
         - x (n_samples, n_features) : tensor containing features of each sample
 
         ### Returns :
-        - output (n_samples, ) : tensor with positive class probability of each
-         sample
+        - output (n_samples, ) : tensor with positive class probability of each sample
         """
         # Classifier layer
         h = self.linear(x)
@@ -58,6 +56,4 @@ class LogisticRegression(torch.nn.Module):
         output = self.forward(x)
 
         # Class prediction
-        return torch.where(condition=output >= 0.5,
-                           self=1,
-                           other=0)
+        return torch.where(condition=output >= 0.5, self=1, other=0)

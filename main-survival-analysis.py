@@ -31,7 +31,7 @@ def argument_parser():
     parser.add_argument('--architecture',
                         type=str,
                         default='cox',
-                        choices=['cox', 'gcn-cox', 'gat-cox'],
+                        choices=['cox', 'gcn', 'gat'],
                         help="Model architecture")
 
     # Add n_features argument
@@ -97,14 +97,8 @@ def main() -> None:
 
     # Relabel patients (t = 183 days = 6 months)
     t = 183
-    df = preProcessing.relabel_patients(df,
-                                        "Progression_1",
-                                        "Time to progression (days)",
-                                        t)
-    df = preProcessing.relabel_patients(df,
-                                        "Alive_0",
-                                        "Overall survival (days)",
-                                        t)
+    df = preProcessing.relabel_patients(df, "Progression_1", "Time to progression (days)", t)
+    df = preProcessing.relabel_patients(df, "Alive_0", "Overall survival (days)", t)
 
     # Normalize initial biomarkers
     features_to_normalize = ["Age at advanced disease diagnosis",
@@ -288,12 +282,8 @@ def main() -> None:
 
     # Compute feature importance
     # TTP :
-    features_name_ttp = featureSelection.feature_importance(df.loc[:, features_name],
-                                                            y_clf_ttp,
-                                                            False)
-    features_name_os = featureSelection.feature_importance(df.loc[:, features_name],
-                                                           y_clf_os,
-                                                           False)
+    features_name_ttp = featureSelection.feature_importance(df.loc[:, features_name], y_clf_ttp, False)
+    features_name_os = featureSelection.feature_importance(df.loc[:, features_name], y_clf_os, False)
 
     # Select the most n_features important features
     if n_features < len(features_name):
@@ -316,7 +306,7 @@ def main() -> None:
         manager_os = CoxTrainTestManager()
         risk_scores_os, risk_classes_os = manager_os.leave_one_out_cv(X_os, y_cox_os)
 
-    elif architecture == "gcn-cox" or "gat-cox":
+    elif architecture == "gcn" or "gat":
         group = df["Tumour type"].to_numpy()
         # TTP :
         manager_ttp = GNNCoxTrainTestManager(architecture)
@@ -387,7 +377,7 @@ def main() -> None:
     ax0.step(time_axis_high_risk_ttp, prob_axis_high_risk_ttp, where='post', color='red', label='high risk')
     ax0.set_xlabel('Time (days)')
     ax0.set_ylabel('Proportion no progression')
-    ax0.set_title('% no progression along days')
+    ax0.set_title(f'{architecture} ; % no progression along days')
     ax0.text(0, 0.1, f'C-index : {c_index_ttp}')
     ax0.text(0, 0.05, f'p value : {p_value_ttp}')
     ax0.set_ylim(0, 1)
@@ -399,7 +389,7 @@ def main() -> None:
     ax1.step(time_axis_high_risk_os, prob_axis_high_risk_os, where='post', color='red', label='high risk')
     ax1.set_xlabel('Time (days)')
     ax1.set_ylabel('Proportion surviving progression')
-    ax1.set_title('% surviving along days')
+    ax1.set_title(f'{architecture} ; % surviving along days')
     ax1.text(0, 0.1, f'C-index : {c_index_os}')
     ax1.text(0, 0.05, f'p value : {p_value_os}')
     ax1.set_ylim(0, 1)

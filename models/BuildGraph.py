@@ -10,15 +10,14 @@ class BuildGraph:
     Graph builder model for Graph Neural Network.
     """
     def __init__(self,
-                 X: np.ndarray,
-                 y: np.ndarray,
-                 group: np.ndarray) -> None:
+                 X: np.ndarray[np.ndarray[float]],
+                 y: np.ndarray[int],
+                 group: np.ndarray[int | str]) -> None:
         """
         Set model attributes.
 
         ### Parameters :
-        - X (n_samples, n_features) : numpy array containing features of each
-        sample
+        - X (n_samples, n_features) : numpy array containing features of each sample
         - y (n_samples, ) : numpy array containing the label of each sample
         - group (n_samples, ) : numpy array containing the group of each sample
         """
@@ -80,14 +79,13 @@ class BuildGraph:
         self.nx_graph.add_edges_from(edges)
 
     def prune_graph(self,
-                    distance_matrix: np.ndarray,
+                    distance_matrix: np.ndarray[np.ndarray[float]],
                     max_neighbors: int) -> None:
         """
         Prune the graph with keeping maximum the max_neighbors closest samples.
 
         ### Parameters :
-        - distance_matrix (n_samples, n_samples): numpy array containing the
-        distance between each sample
+        - distance_matrix (n_samples, n_samples): numpy array containing the distance between each sample
         - max_neighbors : the maximum number of neighbors per sample
 
         ### Returns :
@@ -122,16 +120,14 @@ class BuildGraph:
                 number_to_drop = len(neighbors_i)-max_neighbors
 
     def build_graph(self,
-                    distance_matrix: np.ndarray,
+                    distance_matrix: np.ndarray[np.ndarray[float]],
                     max_neighbors: int,
                     pruning: bool = True) -> None:
         """
-        Implement the whole pipeline of building Networkx and PyTorch geometric
-        graphs.
+        Implement the whole pipeline of building Networkx and PyTorch geometric graphs.
 
         ### Parameters :
-        - distance_matrix (n_samples, n_samples): numpy array containing the
-        distance between each sample
+        - distance_matrix (n_samples, n_samples): numpy array containing the distance between each sample
         - max_neighbors : the maximum number of neighbors per sample
         - pruning (default True): True if graph pruning, False otherwise
 

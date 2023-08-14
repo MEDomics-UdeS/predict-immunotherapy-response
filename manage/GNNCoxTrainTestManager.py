@@ -34,23 +34,20 @@ class GNNCoxTrainTestManager:
                   n_epochs: int,
                   lr: float,
                   reg: float,
-                  train_index) -> tuple[np.ndarray, np.ndarray]:
+                  train_index: list[int]) -> tuple[list[float], list[float]]:
         """
         Train the GNN model for n_epochs with 80% train 20% validation.
 
         ### Parameters :
-        - nx_graph : the networkx graph containing the features and the label
-        of each sample, and the graph connectivity
+        - nx_graph : the networkx graph containing the features and the label of each sample, and the graph connectivity
         - n_epochs : the number of epochs.
         - lr : the learning rate for the gradient descent
         - reg : the regularization factor in optimizer
         - train_index : the dataset index of each train sample
 
         ### Returns :
-        - train_loss (n_epochs, ) : list containing the train loss for
-        each epoch
-        - val_loss (n_epochs, ) : list containing the validation loss
-        for each epoch
+        - train_loss (n_epochs, ) : list containing the train loss for each epoch
+        - val_loss (n_epochs, ) : list containing the validation loss for each epoch
         """
 
         # Initialize train loss and validation loss lists
@@ -58,17 +55,14 @@ class GNNCoxTrainTestManager:
 
         # Define loss function and optimizer
         loss_function = torch.nn.BCELoss()
-        optimizer = torch.optim.Adam(self.gnn_model.parameters(),
-                                     lr=lr,
-                                     weight_decay=reg)
+        optimizer = torch.optim.Adam(self.gnn_model.parameters(), lr=lr, weight_decay=reg)
 
         for epoch in range(n_epochs):
 
             # Set train-validation set
-            index_train, index_val, node_train, node_val = train_test_split(
-                [i for i in range(len(train_index))],
-                train_index,
-                test_size=0.2)
+            index_train, index_val, node_train, node_val = train_test_split([i for i in range(len(train_index))],
+                                                                            train_index,
+                                                                            test_size=0.2)
 
             # Build train graph with removing validation nodes
             nx_graph_train = nx_graph.copy()
@@ -82,12 +76,10 @@ class GNNCoxTrainTestManager:
             optimizer.zero_grad()
 
             # Forward pass on training graph
-            out_train = self.gnn_model.forward(pyg_graph_train.x,
-                                               pyg_graph_train.edge_index)
+            out_train = self.gnn_model.forward(pyg_graph_train.x, pyg_graph_train.edge_index)
 
             # Compute train loss
-            loss_train = loss_function(out_train,
-                                       pyg_graph_train.y)
+            loss_train = loss_function(out_train, pyg_graph_train.y)
 
             # Add train loss to train_loss list
             train_loss.append(loss_train.item())
@@ -102,56 +94,48 @@ class GNNCoxTrainTestManager:
             pyg_graph = from_networkx(nx_graph)
 
             # Forward pass on validation set
-            out_val = self.gnn_model.forward(pyg_graph.x,
-                                             pyg_graph.edge_index)[index_val]
+            out_val = self.gnn_model.forward(pyg_graph.x, pyg_graph.edge_index)[index_val]
 
             # Compute validation loss
-            loss_val = loss_function(out_val,
-                                     pyg_graph.y[index_val])
+            loss_val = loss_function(out_val, pyg_graph.y[index_val])
 
             # Add validation loss to val_loss list
             val_loss.append(loss_val.item())
 
         return train_loss, val_loss
 
-    def train_cox_model(self, X: np.ndarray, y: np.ndarray):
+    def train_cox_model(self,
+                        X: np.ndarray[np.ndarray[float]],
+                        y: np.ndarray[tuple[int, float]]) -> None:
         """
         Train the Cox Model.
 
         ### Parameters :
-        - X (n_samples, n_features) : numpy array containing features of each
-        sample
-        - y (n_samples, ) : numpy array containing the event status and the
-        time surviving of each sample.
+        - X (n_samples, n_features) : numpy array containing features of each sample
+        - y (n_samples, ) : numpy array containing the event status and the time surviving of each sample.
 
         ### Returns :
         None
         """
-        self.cox_model.train(X,
-                             y)
+        self.cox_model.train(X, y)
 
     def leave_one_out_cv(self,
-                         X: np.ndarray,
-                         y_clf: np.ndarray,
-                         y_cox: np.ndarray,
-                         group: np.ndarray,
+                         X: np.ndarray[np.ndarray[float]],
+                         y_clf: np.ndarray[int],
+                         y_cox: np.ndarray[tuple[int, float]],
+                         group: np.ndarray[int | str],
                          n_epochs: int,
                          lr: float,
                          reg: float,
-                         max_neighbors: int) -> tuple[np.ndarray,
-                                                      np.ndarray,
-                                                      nx.DiGraph]:
+                         max_neighbors: int) -> tuple[np.ndarray[float], np.ndarray[int], nx.DiGraph]:
         """
-        Execute the leave one out cross validation to find test risk scores and
-        risk classes.
+        Execute the leave one out cross validation to find test risk scores and risk classes.
 
         ### Parameters :
-        - X (n_samples, n_features) : numpy array containing features of each
-        sample
-        - y_clf (n_samples, ) : Classifier labels, numpy array containing the
-        classifier label of each patient
-        - y_cox (n_samples, ) : Cox Model labels, numpy array containing the
-        event status and the time surviving of each sample.
+        - X (n_samples, n_features) : numpy array containing features of each sample
+        - y_clf (n_samples, ) : Classifier labels, numpy array containing the classifier label of each patient
+        - y_cox (n_samples, ) : Cox Model labels, numpy array containing the event status and the time surviving of
+        each sample.
         - group (n_samples, ) : numpy array containing the group of each sample
         - n_epochs : the number of epochs.
         - lr : the learning rate for the gradient descent
@@ -159,12 +143,10 @@ class GNNCoxTrainTestManager:
         - max_neighbors : the maximum number of neighbors per sample
 
         ### Returns :
-        - risk_scores (n_samples, ) : numpy array containing the risk score of
-        each sample
-        - risk_classes (n_samples, ) : numpy array containing the risk class of
-        each sample
-        - nx_graph : the networkx graph used for training containing the
-        features and the label of each sample, and the graph connectivity
+        - risk_scores (n_samples, ) : numpy array containing the risk score of each sample
+        - risk_classes (n_samples, ) : numpy array containing the risk class of each sample
+        - nx_graph : the networkx graph used for training containing the eatures and the label of each sample, and the
+        graph connectivity
         """
 
         # Split dataframe in n_samples groups
@@ -215,30 +197,26 @@ class GNNCoxTrainTestManager:
             pyg_graph = from_networkx(nx_graph)
 
             # Predict new embeddings of each sample on train set
-            X_cox_train = self.gnn_model.forward_conv(
-                pyg_graph.x,
-                pyg_graph.edge_index).detach().numpy()[train_index]
+            X_cox_train = self.gnn_model.forward_conv(pyg_graph.x,
+                                                      pyg_graph.edge_index).detach().numpy()[train_index]
 
             # Select train set labels
             y_train_cox = y_cox[train_index]
 
             # Training Cox Model on train set
-            self.cox_model.train(X_cox_train,
-                                 y_train_cox)
+            self.cox_model.train(X_cox_train, y_train_cox)
 
             # Find risk score cutoff between high risk and low risk
             risk_scores_train = self.cox_model.predict_risk_score(X_cox_train)
             risk_cutoff = self.cox_model.find_cutoff(risk_scores_train)
 
             # Predict new embedding of test set
-            X_cox_test = self.gnn_model.forward_conv(
-                pyg_graph.x,
-                pyg_graph.edge_index).detach().numpy()[test_index]
+            X_cox_test = self.gnn_model.forward_conv(pyg_graph.x,
+                                                     pyg_graph.edge_index).detach().numpy()[test_index]
 
             # Predict test risk score and risk class
             risk_score_test = self.cox_model.predict_risk_score(X_cox_test)
-            risk_class_test = self.cox_model.predict_class(risk_score_test,
-                                                           risk_cutoff)
+            risk_class_test = self.cox_model.predict_class(risk_score_test, risk_cutoff)
 
             # Add risk score and risk class to arrays
             risk_scores[test_index] = risk_score_test

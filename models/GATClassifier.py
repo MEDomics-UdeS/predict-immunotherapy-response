@@ -21,12 +21,10 @@ class GATClassifier(torch.nn.Module):
         super().__init__()
 
         # Attention-convolution layer
-        self.att_conv = GATv2Conv(in_channels=n_features,
-                                  out_channels=n_features//2)
+        self.att_conv = GATv2Conv(in_channels=n_features, out_channels=n_features//2)
 
         # Classifier layer
-        self.linear = Linear(in_features=n_features//2,
-                             out_features=1)
+        self.linear = Linear(in_features=n_features//2, out_features=1)
 
     def forward(self,
                 x: Tensor,
@@ -39,12 +37,10 @@ class GATClassifier(torch.nn.Module):
         - edge_index (2, n_edges) : tensor containing the graph connectivity
 
         ### Returns :
-        - output (n_samples, ) : tensor with positive class probability of each
-         sample
+        - output (n_samples, ) : tensor with positive class probability of each sample
         """
         # Attention layer
-        h = self.att_conv(x,
-                          edge_index)
+        h = self.att_conv(x, edge_index)
 
         # Activation function
         h = F.relu(h)
@@ -71,13 +67,10 @@ class GATClassifier(torch.nn.Module):
         (n_samples, ) tensor with class of each sample
         """
         # Model output
-        output = self.forward(x,
-                              edge_index)
+        output = self.forward(x, edge_index)
 
         # Class prediction
-        return torch.where(output >= 0.5,
-                           1,
-                           0)
+        return torch.where(output >= 0.5, 1, 0)
 
     def forward_conv(self,
                      x: Tensor,
@@ -90,8 +83,6 @@ class GATClassifier(torch.nn.Module):
         - edge_index (2, n_edges) : tensor containing the graph connectivity
 
         ### Returns :
-        (n_samples, n_features) tensor containing the new features of each
-        sample
+        (n_samples, n_features) tensor containing the new features of each sample
         """
-        return self.att_conv(x,
-                             edge_index)
+        return self.att_conv(x, edge_index)

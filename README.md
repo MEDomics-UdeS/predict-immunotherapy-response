@@ -20,8 +20,11 @@ To have more details, you can read the internship report (link above).
 Before running codes, please follow these steps to make sure you have all dependencies :
 1. Clone the repository
 2. Move to the root of this repository
-3. Create a Python virtual environment. The creation and activation commands depending on your OS are available on : https://docs.python.org/3/library/venv.html 
-4. Install the requirements : ```pip install -r requirements.txt```
+3. Create a Python virtual environment, called venv : `python3 -m venv venv`
+4. Activate the virtual environment :
+    1. Linux (bash) : `source venv/bin/activate`
+    2. Windows (powershell) : `venv\Scripts\activate.ps1` 
+5. Install the requirements : ```pip install -r requirements.txt```
 
 ## Executions
 
@@ -34,11 +37,9 @@ The pipelines need some arguments, described below :
     - `comb` : include biomarkers from the reference article and the mutational signatures.
 - --architecture : the model architecture :
     - `logistic-regression` : the logistic regression, for binary classification problem.
-    - `gcn` : the Graph Convolutional Network, for binary classification problem.
-    - `gat` : the Graph Attention Network, for binary classification problem.
+    - `gcn` : the Graph Convolutional Network, for binary classification problem, or survival analysis problem.
+    - `gat` : the Graph Attention Network, for binary classification problem, or survival analysis problem.
     - `cox` : the Cox Model, for survival analysis problem.
-    - `gcn-cox` : the Graph Convolutional Network Cox Model, for survival analysis problem.
-    - `gat-cox` : the Graph Attention Network Cox Model, for survival analysis problem.
 - --n_features : the n_features most important features will be considered for each patient
 - --n_epochs : the number of epochs to train the models. The Cox Model is trained on 1 epoch.
 - --lr : the learning rate used during the Stochastic Gradient Descent. Not used in Cox Model.
@@ -99,21 +100,21 @@ To see examples of executions and results, you can read the following notebooks 
 
 ## Project Tree
 ```
-├── data
+├── data                                            <- datasets used by the models
 │   ├── cohort-dataset.xlsx                         <- dataset from the reference article with mutational signatures
 │   ├── cohort-dataset-with-logreg-output.xlsx      <- dataset from the reference article with mutational signatures and the output of the logistic regression model (class 1 probability)
 |
-├── evaluation                           
+├── evaluation                                      <- evaluation methods for models
 │   ├── ClassificationMetrics.py                    <- class containing evaluation metrics for binary classification
 │   ├── SurvivalMetrics.py                          <- class containing evaluation metrics for survival analysis
 |
-├── manage                           
+├── manage                                          <- train-test managers of models
 │   ├── CoxTrainTestManager.py                      <- class handling train-test process of the Cox Model
 │   ├── GNNClassifierTrainTestManager.py            <- class handling train-test process of the GNN classifier
 │   ├── GNNCoxTrainTestManager.py                   <- class handling train-test process of the GNN Cox Model
 │   ├── LogisticRegressionTrainTestManager.py       <- class handling train-test process of the logistic regression model
 |
-├── models                           
+├── models                                          <- prediction models
 │   ├── BuildGraph.py                               <- class handling the building of the graph
 │   ├── CoxModel.py                                 <- class handling the Cox Model architecture and its forward pass
 │   ├── GATClassifier.py                            <- class handling the GAT architecture and its forward pass
@@ -122,7 +123,7 @@ To see examples of executions and results, you can read the following notebooks 
 |
 ├── results                                         <- .png files containing the results of Python scripts                           
 |
-├── utils                           
+├── utils                                           <- some functions for feature selection and preprocessing
 │   ├── featureSelection.py                         <- class handling the selection of most important features
 │   ├── preProcessing.py                            <- class handling the data preprocessing
 |
