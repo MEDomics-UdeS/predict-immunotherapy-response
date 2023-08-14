@@ -371,6 +371,10 @@ def main() -> None:
     time_axis_high_risk_os, prob_axis_high_risk_os = SurvivalMetrics.estimate_survival_curve(status_high_risk_os,
                                                                                              time_high_risk_os)
     fig = plt.figure()
+
+    # 5 : PLOT RESULTS
+
+    # Survival curves
     # TTP :
     ax0 = fig.add_subplot(121)
     ax0.step(time_axis_low_risk_ttp, prob_axis_low_risk_ttp, where='post', color='green', label='low risk')
@@ -400,7 +404,7 @@ def main() -> None:
 
     plt.savefig(f"results/perfs-survivalAnalysis-{sigmut}-{architecture}.png")
 
-    # SHAP
+    # SHAP values
     if architecture == "cox":
         # TTP :
         explainer_ttp = shap.Explainer(manager_ttp.model.model.predict, X_ttp)

@@ -333,6 +333,7 @@ def main() -> None:
         fig = plt.figure()
         x = np.linspace(0, 1, 100)
 
+        # Plot ROC curve with sensitivity, specificity, and AUC
         ax0 = fig.add_subplot(121)
         ax0.plot(fpr, tpr, color='red', label=sigmut)
         ax0.plot(x, x, linestyle='--', color='black', label='y=x')
@@ -344,6 +345,7 @@ def main() -> None:
         ax0.text(0, 0.6, f"AUC : {auc}")
         ax0.legend()
 
+        # Plot SHAP values
         ax1 = fig.add_subplot(122)
         shap.decision_plot(expected_values, shap_values, features_name, show=False)
         ax1.set_title("SHAP values")
@@ -369,9 +371,10 @@ def main() -> None:
             ),
         )
 
-        # Generate explanation for the node at index `10`:
+        # Generate explanation all patients
         explanation = explainer(pyg_graph.x, pyg_graph.edge_index)
 
+        # Plot ROC curve with printing sensitivity, specificity, and AUC
         fig = plt.figure()
         x = np.linspace(0, 1, 100)
 
@@ -388,9 +391,11 @@ def main() -> None:
 
         plt.savefig(f"results/perfs-classif-{sigmut}-{architecture}.png")
 
+        # Plot SHAP values
         explanation.visualize_feature_importance(path=f"results/shap-classif-{sigmut}-{architecture}.png",
                                                  feat_labels=features_name)
 
+        # Plot graph
         fig, ax = plt.subplots()
         nx.draw(nx_graph)
         plt.savefig(f"results/graph-classif-{architecture}.png")
