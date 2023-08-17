@@ -8,9 +8,6 @@ class SurvivalMetrics:
     """
     Implementation of some survival analysis evaluation metrics.
     """
-    def __init__(self) -> None:
-        pass
-
     @staticmethod
     def get_c_index(status: np.ndarray[int],
                     time: np.ndarray[int],

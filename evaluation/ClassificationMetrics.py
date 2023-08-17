@@ -6,9 +6,6 @@ class ClassificationMetrics:
     """
     Implementation of some classification evaluation metrics.
     """
-    def __init__(self) -> None:
-        pass
-
     @staticmethod
     def compute_roc_curve(y_true: np.ndarray[int],
                           y_score: np.ndarray[float]) -> tuple[np.ndarray[float], np.ndarray[float]]:
@@ -33,7 +30,7 @@ class ClassificationMetrics:
         Compute the AUC associated to the prediction.
 
         ### Parameters :
-        - y_true (n_samples, ) : numpy array containing the correct classes for each sample
+        - y_true (n_samples, ) : numpy array containing the correct class for each sample
         - y_score (n_samples, ): numpy array containing the output score predicted by the model (class 1 probability)
 
         ### Returns :
@@ -53,7 +50,7 @@ class ClassificationMetrics:
 
         ### Returns :
         - The sensitivity
-        - The spepcificity
+        - The specificity
         """
         # Compute the confusion matrix
         TP, FP, FN, TN = confusion_matrix(y_true, y_pred).ravel()
