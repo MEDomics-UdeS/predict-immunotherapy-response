@@ -12,7 +12,7 @@ class GATClassifier(torch.nn.Module):
     def __init__(self,
                  n_features: int) -> None:
         """
-        Set the layers of the Graph Attention Network model.
+        Sets the layers of the Graph Attention Network model.
 
         ### Parameters :
         - n_features : the number of features for each sample
@@ -30,7 +30,7 @@ class GATClassifier(torch.nn.Module):
                 x: Tensor,
                 edge_index: Tensor) -> Tensor:
         """
-        Execute the forward pass.
+        Executes the forward pass.
 
         ### Parameters :
         - x (n_samples, n_features) : tensor containing features of each sample
@@ -57,7 +57,7 @@ class GATClassifier(torch.nn.Module):
                       x: Tensor,
                       edge_index: Tensor) -> Tensor:
         """
-        Predict class of each sample.
+        Predicts class of each sample.
 
         ### Parameters :
         - x (n_samples, n_features) : tensor containing features of each sample
@@ -76,7 +76,7 @@ class GATClassifier(torch.nn.Module):
                      x: Tensor,
                      edge_index: Tensor) -> Tensor:
         """
-        Predict new samples embeddings obtained after attention-convolution.
+        Predicts new samples embeddings obtained after attention-convolution.
 
         ### Parameters :
         - x (n_samples, n_features) : tensor containing features of each sample

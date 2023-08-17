@@ -15,7 +15,7 @@ class GNNClassifierTrainTestManager:
     """
     def __init__(self, architecture: str) -> None:
         """
-        GNNClassifierTrainTestManager class constructor.
+        GNNClassifierTrainTestManager class builder.
 
         ### Parameters :
         - architecture ('gcn' or 'gat'): GNN architecture : gcn or gat
@@ -33,7 +33,7 @@ class GNNClassifierTrainTestManager:
               reg: float,
               train_index: list[int]) -> tuple[list[float], list[float]]:
         """
-        Train the model for n_epochs with 80% train 20% validation.
+        Trains the model for n_epochs with 80% train 20% validation.
 
         ### Parameters :
         - nx_graph : the networkx graph containing the features and the label of each sample, and the graph connectivity
@@ -114,7 +114,7 @@ class GNNClassifierTrainTestManager:
                                                       list[float],
                                                       nx.DiGraph]:
         """
-        Execute the leave one out cross validation to find test scores and
+        Executes the leave one out cross validation to find test scores and
         labels.
 
         ### Parameters :

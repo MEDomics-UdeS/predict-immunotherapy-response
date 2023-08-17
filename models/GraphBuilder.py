@@ -1,25 +1,27 @@
-import numpy as np
-import networkx as nx
 import matplotlib.pyplot as plt
+import networkx as nx
+import numpy as np
 import torch
 from torch_geometric.utils import from_networkx
 
 
 class GraphBuilder:
     """
-    Graph builder model for Graph Neural Network.
+    Graph builder model for Graph Neural Network. Each node of the graph represents a patient, with its features and
+    label. The graph is the combination of distinct subgraphs, where each subgraph contains patient of the same
+    group.
     """
     def __init__(self,
                  X: np.ndarray[np.ndarray[float]],
                  y: np.ndarray[int],
                  group: np.ndarray[int | str]) -> None:
         """
-        Set model attributes.
+        GraphBuilder class builder.
 
         ### Parameters :
         - X (n_samples, n_features) : numpy array containing features of each sample
         - y (n_samples, ) : numpy array containing the label of each sample
-        - group (n_samples, ) : numpy array containing the group of each sample
+        - group (n_samples, ) : numpy array containing the group of each sample : tumour type, or cluster.
         """
         self.X = X
         self.y = y
@@ -36,7 +38,8 @@ class GraphBuilder:
 
     def compute_adjacency_matrix(self) -> None:
         """
-        Compute the graph adjacency matrix with splitting nodes per group.
+        Computes the graph adjacency matrix of the graph where a connection is established between each pair of
+        patients within the same group.
 
         ### Parameters :
         None
@@ -49,12 +52,12 @@ class GraphBuilder:
         for i in range(shape_A):
             group = self.group[i]
 
-            # Affect 1 of patients in same group
+            # Assign 1 to patients within the same group
             self.adjacency_matrix[i] = np.where(self.group == group, 1, 0)
 
-    def from_adjacency_matrix(self) -> None:
+    def create_nx_graph_from_adjacency_matrix(self) -> None:
         """
-        Create the networkx graph from the adjacency matrix.
+        Creates the networkx graph from the adjacency matrix.
 
         ### Parameters :
         None
@@ -82,7 +85,7 @@ class GraphBuilder:
                     distance_matrix: np.ndarray[np.ndarray[float]],
                     max_neighbors: int) -> None:
         """
-        Prune the graph with keeping maximum the max_neighbors closest samples.
+        Prunes the graph with keeping maximum the max_neighbors closest samples.
 
         ### Parameters :
         - distance_matrix (n_samples, n_samples): numpy array containing the distance between each sample
@@ -117,14 +120,14 @@ class GraphBuilder:
                 # Update neighbors list, distance_i, to_drop
                 neighbors_i = [n for n in self.nx_graph[i]]
                 distance_i = distance_matrix[i][neighbors_i]
-                number_to_drop = len(neighbors_i)-max_neighbors
+                number_to_drop = len(neighbors_i) - max_neighbors
 
     def build_graph(self,
                     distance_matrix: np.ndarray[np.ndarray[float]],
                     max_neighbors: int,
                     pruning: bool = True) -> None:
         """
-        Implement the whole pipeline of building Networkx and PyTorch geometric graphs.
+        Implements the whole pipeline of building Networkx and PyTorch geometric graphs.
 
         ### Parameters :
         - distance_matrix (n_samples, n_samples): numpy array containing the distance between each sample
@@ -139,7 +142,7 @@ class GraphBuilder:
         self.compute_adjacency_matrix()
 
         # Create the Networkx graph
-        self.from_adjacency_matrix()
+        self.create_nx_graph_from_adjacency_matrix()
 
         # Prune the graph
         if pruning:
@@ -150,7 +153,7 @@ class GraphBuilder:
 
     def show_graph(self) -> None:
         """
-        Display the networkx graph.
+        Displays the networkx graph.
 
         ### Parameters :
         None

@@ -16,7 +16,7 @@ from utils.PreProcessor import PreProcessor
 
 def argument_parser():
     """
-    Create the command line parser to execute the pipeline.
+    Creates the command line parser to execute the pipeline.
     """
     # Create parser without argument
     parser = ArgumentParser()
@@ -72,7 +72,7 @@ def argument_parser():
 
 def main() -> None:
     """
-    Execute the whole pipeline, from reading to testing.
+    Executes the whole pipeline, from reading to testing.
     """
     # Parse arguments
     args = argument_parser()

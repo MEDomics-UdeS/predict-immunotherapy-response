@@ -10,7 +10,7 @@ class LogisticRegressionTrainTestManager:
     """
     def __init__(self) -> None:
         """
-        LogisticRegressionTrainTestManager class constructor.
+        LogisticRegressionTrainTestManager class builder.
 
         ### Parameters :
         None
@@ -27,7 +27,7 @@ class LogisticRegressionTrainTestManager:
               lr: float,
               reg: float) -> tuple[list[float], list[float]]:
         """
-        Train the model for n_epochs with 80% train 20% validation.
+        Trains the model for n_epochs with 80% train 20% validation.
 
         ### Parameters :
         - X (n_samples, n_features) : numpy array containing the features of each sample
@@ -96,7 +96,7 @@ class LogisticRegressionTrainTestManager:
                          lr: float,
                          reg: float) -> tuple[np.ndarray[float], np.ndarray[int], list[float], list[float]]:
         """
-        Execute the leave one out cross validation to find test scores and labels.
+        Executes the leave one out cross validation to find test scores and labels.
 
         ### Parameters :
         - X (n_samples, n_features) : numpy array containing the features of each sample

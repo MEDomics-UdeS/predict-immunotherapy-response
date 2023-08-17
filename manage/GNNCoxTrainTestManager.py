@@ -17,7 +17,7 @@ class GNNCoxTrainTestManager:
     """
     def __init__(self, gnn_architecture: str) -> None:
         """
-        gnnCoxTrainTestManager class constructor.
+        gnnCoxTrainTestManager class builder.
 
         ### Parameters :
         - gnn_architecture ('gcn' or 'gat') : the type of GNN architecture
@@ -36,7 +36,7 @@ class GNNCoxTrainTestManager:
                   reg: float,
                   train_index: list[int]) -> tuple[list[float], list[float]]:
         """
-        Train the GNN model for n_epochs with 80% train 20% validation.
+        Trains the GNN model for n_epochs with 80% train 20% validation.
 
         ### Parameters :
         - nx_graph : the networkx graph containing the features and the label of each sample, and the graph connectivity
@@ -108,7 +108,7 @@ class GNNCoxTrainTestManager:
                         X: np.ndarray[np.ndarray[float]],
                         y: np.ndarray[tuple[int, float]]) -> None:
         """
-        Train the Cox Model.
+        Trains the Cox Model.
 
         ### Parameters :
         - X (n_samples, n_features) : numpy array containing features of each sample
@@ -129,7 +129,7 @@ class GNNCoxTrainTestManager:
                          reg: float,
                          max_neighbors: int) -> tuple[np.ndarray[float], np.ndarray[int], nx.DiGraph]:
         """
-        Execute the leave one out cross validation to find test risk scores and risk classes.
+        Executes the leave one out cross validation to find test risk scores and risk classes.
 
         ### Parameters :
         - X (n_samples, n_features) : numpy array containing features of each sample

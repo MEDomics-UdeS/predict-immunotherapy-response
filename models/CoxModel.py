@@ -8,7 +8,7 @@ class CoxModel:
     """
     def __init__(self) -> None:
         """
-        Define the Cox Model attribute.
+        Cox Model class builder.
         """
         self.model = CoxPHSurvivalAnalysis()
 
@@ -16,7 +16,7 @@ class CoxModel:
               X: np.ndarray[np.ndarray[float]],
               y: np.ndarray[tuple[int, float]]) -> None:
         """
-        Train the Cox Model with estimating hazard function parameters.
+        Trains the Cox Model with estimating hazard function parameters.
 
         ### Parameters :
         - X (n_samples, n_features) : numpy array containing features of each ample
@@ -30,7 +30,7 @@ class CoxModel:
     def predict_risk_score(self,
                            X: np.ndarray[np.ndarray[float]]) -> np.ndarray:
         """
-        Predict the risk score.
+        Predicts the risk score.
 
         ### Parameters :
         - X : X (n_samples, n_features) : numpy array containing features of each sample
@@ -43,7 +43,7 @@ class CoxModel:
     def find_cutoff(self,
                     risk_scores: np.ndarray[float]) -> float:
         """
-        Find cutoff between high risk and low risk with computing median risk scores.
+        Finds cutoff between high risk and low risk with computing median risk scores.
 
         ### Parameters :
         - risk_scores (n_samples, ) : numpy array containing the risk score of each sample
@@ -57,7 +57,7 @@ class CoxModel:
                       risk_scores: np.ndarray[float],
                       cutoff: float) -> np.ndarray[int]:
         """
-        Predict the risk class, 1 if high, 0 otherwise.
+        Predicts the risk class, 1 if high, 0 otherwise.
 
         ### Parameters :
         - risk_scores (n_samples, ) : numpy array containing the risk score of each sample

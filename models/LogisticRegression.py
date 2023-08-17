@@ -11,7 +11,7 @@ class LogisticRegression(torch.nn.Module):
     def __init__(self,
                  n_features: int) -> None:
         """
-        Set the layers of the Logistic Regression model.
+        Sets the layers of the Logistic Regression model.
 
         ### Parameters :
         - n_features : the number of features for each sample
@@ -25,7 +25,7 @@ class LogisticRegression(torch.nn.Module):
     def forward(self,
                 x: Tensor) -> Tensor:
         """
-        Execute the forward pass.
+        Executes the forward pass.
 
         ### Parameters :
         - x (n_samples, n_features) : tensor containing features of each sample
@@ -44,7 +44,7 @@ class LogisticRegression(torch.nn.Module):
     def predict_class(self,
                       x: Tensor) -> Tensor:
         """
-        Predict class of each sample.
+        Predicts class of each sample.
 
         ### Parameters :
         - x (n_samples, n_features) : tensor containing features of each sample

@@ -10,7 +10,7 @@ class ClassificationMetrics:
     def compute_roc_curve(y_true: np.ndarray[int],
                           y_score: np.ndarray[float]) -> tuple[np.ndarray[float], np.ndarray[float]]:
         """
-        Compute the ROC curve associated to the prediction.
+        Computes the ROC curve associated to the prediction.
 
         ### Parameters :
         - y_true (n_samples, ) : numpy array containing the correct classes for each sample
@@ -27,7 +27,7 @@ class ClassificationMetrics:
     def compute_auc(y_true: np.ndarray[int],
                     y_score: np.ndarray[float]) -> float:
         """
-        Compute the AUC associated to the prediction.
+        Computes the AUC associated to the prediction.
 
         ### Parameters :
         - y_true (n_samples, ) : numpy array containing the correct class for each sample
@@ -42,7 +42,7 @@ class ClassificationMetrics:
     def compute_sensitivity_specificity(y_true: np.ndarray[int],
                                         y_pred: np.ndarray[int]) -> tuple[float, float]:
         """
-        Compute the sensitivity and the specificity of the prediction.
+        Computes the sensitivity and the specificity of the prediction.
 
         ### Parameters :
         - y_true (n_samples, ) : numpy array containing the correct class for each sample

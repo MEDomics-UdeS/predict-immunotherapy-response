@@ -15,7 +15,7 @@ from utils.PreProcessor import PreProcessor
 
 def argument_parser():
     """
-    Create the command line parser to execute the pipeline.
+    Creates the command line parser to execute the pipeline.
     """
     # Create parser without argument
     parser = ArgumentParser()
@@ -71,7 +71,7 @@ def argument_parser():
 
 def main() -> None:
     """
-    Execute the whole pipeline, from reading to testing.
+    Executes the whole pipeline, from reading to testing.
     """
     # Parse arguments
     args = argument_parser()
@@ -329,7 +329,7 @@ def main() -> None:
     else:
         raise ValueError("Invalid value of architecture. The valid choices are gcn and gat")
 
-    print("Finished !")
+    print("Finished leave one out CV !")
 
     # 4 : EVALUATE PERFORMANCES
     status_ttp, time_ttp = df['Progression_1'].to_numpy().astype(bool), df['Time to progression (days)'].to_numpy()

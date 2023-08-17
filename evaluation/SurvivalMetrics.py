@@ -13,7 +13,7 @@ class SurvivalMetrics:
                     time: np.ndarray[int],
                     risk_scores: np.ndarray[float]) -> float:
         """
-        Compute the concordance index.
+        Computes the concordance index.
 
         ### Parameters :
         - status (n_samples, ) : the event status for each sample (1 if event happened, 0 otherwise)
@@ -29,7 +29,7 @@ class SurvivalMetrics:
     def estimate_survival_curve(status: np.ndarray[int],
                                 time: np.ndarray[int]) -> tuple[np.ndarray[int], np.ndarray[float]]:
         """
-        Estimate the survival curve using the Kaplan Meier Estimator.
+        Estimates the survival curve using the Kaplan Meier Estimator.
 
         ### Parameters :
         - status (n_samples, ) : the event status for each sample (1 if event happened, 0 otherwise)
@@ -46,7 +46,7 @@ class SurvivalMetrics:
                                   time: np.ndarray[int],
                                   risk_classes: np.ndarray[int]) -> float:
         """
-        Execute the log rank test and return its p value.
+        Executes the log rank test and return its p value.
 
         ### Parameters :
         - status (n_samples, ) : the event status for each sample (1 if event happened, 0 otherwise)

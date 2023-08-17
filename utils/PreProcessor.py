@@ -7,13 +7,10 @@ class PreProcessor:
     """
     Implementation of some preprocessings.
     """
-    def __init__(self) -> None:
-        pass
-
     @staticmethod
     def delete_nan_values(df: pd.DataFrame) -> pd.DataFrame:
         """
-        Delete rows which contains at least 1 NaN value.
+        Deletes rows which contains at least 1 NaN value.
 
         ### Parameters :
         - df : the dataframe to update
@@ -26,7 +23,7 @@ class PreProcessor:
     @staticmethod
     def normalize_data(X: np.ndarray[np.ndarray[float]]) -> np.ndarray[np.ndarray[float]]:
         """
-        Normalize the numpy array using the Standard Scaler.
+        Normalizes the numpy array using the Standard Scaler.
 
         ### Parameters :
         - X : 2D numpy array to normalize
@@ -42,7 +39,7 @@ class PreProcessor:
                          time_name: str,
                          t: float) -> pd.DataFrame:
         """
-        Relabel patients depending on the event status, the time of event, and
+        Relabels patients depending on the event status, the time of event, and
         the time t when we look at.
 
         The 4 possibles cases are :

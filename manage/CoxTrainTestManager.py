@@ -9,7 +9,7 @@ class CoxTrainTestManager:
     """
     def __init__(self) -> None:
         """
-        CoxTrainTestManager class constructor.
+        CoxTrainTestManager class builder.
 
         ### Parameters :
         None
@@ -23,7 +23,7 @@ class CoxTrainTestManager:
                          X: np.ndarray[np.ndarray[float]],
                          y: np.ndarray[tuple[int, float]]) -> tuple[np.ndarray, np.ndarray]:
         """
-        Execute the leave one out cross validation to find test risk scores and
+        Executes the leave one out cross validation to find test risk scores and
         risk classes.
 
         ### Parameters :
