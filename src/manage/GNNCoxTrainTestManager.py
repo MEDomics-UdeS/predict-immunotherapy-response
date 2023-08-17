@@ -2,13 +2,13 @@ import networkx as nx
 import numpy as np
 import torch
 from sklearn.model_selection import KFold
-from models.GraphBuilder import GraphBuilder
+from src.models.GraphBuilder import GraphBuilder
 from torch_geometric.utils import from_networkx
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import euclidean_distances
-from models.GCNClassifier import GCNClassifier
-from models.GATClassifier import GATClassifier
-from models.CoxModel import CoxModel
+from src.models.GCNClassifier import GCNClassifier
+from src.models.GATClassifier import GATClassifier
+from src.models.CoxModel import CoxModel
 
 
 class GNNCoxTrainTestManager:

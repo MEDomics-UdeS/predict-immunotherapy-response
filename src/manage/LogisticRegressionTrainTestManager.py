@@ -1,7 +1,7 @@
 import numpy as np
 import torch
 from sklearn.model_selection import KFold, train_test_split
-from models.LogisticRegression import LogisticRegression
+from src.models.LogisticRegression import LogisticRegression
 
 
 class LogisticRegressionTrainTestManager:

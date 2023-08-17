@@ -2,9 +2,9 @@ import numpy as np
 import torch
 import networkx as nx
 from sklearn.model_selection import KFold, train_test_split
-from models.GraphBuilder import GraphBuilder
-from models.GATClassifier import GATClassifier
-from models.GCNClassifier import GCNClassifier
+from src.models.GraphBuilder import GraphBuilder
+from src.models.GATClassifier import GATClassifier
+from src.models.GCNClassifier import GCNClassifier
 from torch_geometric.utils import from_networkx
 from sklearn.metrics.pairwise import euclidean_distances
 

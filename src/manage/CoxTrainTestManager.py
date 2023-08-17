@@ -1,5 +1,5 @@
 import numpy as np
-from models.CoxModel import CoxModel
+from src.models.CoxModel import CoxModel
 from sklearn.model_selection import KFold
 
 

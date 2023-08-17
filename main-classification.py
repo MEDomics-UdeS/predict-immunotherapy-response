@@ -5,13 +5,13 @@ import pandas as pd
 import shap
 import torch
 from argparse import ArgumentParser
-from evaluation.ClassificationMetrics import ClassificationMetrics
-from manage.LogisticRegressionTrainTestManager import LogisticRegressionTrainTestManager
-from manage.GNNClassifierTrainTestManager import GNNClassifierTrainTestManager
+from src.evaluation.ClassificationMetrics import ClassificationMetrics
+from src.manage.LogisticRegressionTrainTestManager import LogisticRegressionTrainTestManager
+from src.manage.GNNClassifierTrainTestManager import GNNClassifierTrainTestManager
 from torch_geometric.explain import Explainer, GNNExplainer
 from torch_geometric.utils import from_networkx
-from utils.FeatureSelector import FeatureSelector
-from utils.PreProcessor import PreProcessor
+from src.utils.FeatureSelector import FeatureSelector
+from src.utils.PreProcessor import PreProcessor
 
 
 def argument_parser():
@@ -310,6 +310,7 @@ def main() -> None:
         df.to_excel("data/cohort-dataset-with-logreg-output.xlsx")
 
     print("Finished leave one out CV !")
+    print("Start computing evaluation metrics...")
 
     # 4 : EVALUATE PERFORMANCES
     # Classification metrics
@@ -394,6 +395,8 @@ def main() -> None:
         fig, ax = plt.subplots()
         nx.draw(nx_graph)
         plt.savefig(f"results/graph-classif-{architecture}.png")
+
+        print("Finished computing evaluation metrics !")
 
 
 if __name__ == '__main__':

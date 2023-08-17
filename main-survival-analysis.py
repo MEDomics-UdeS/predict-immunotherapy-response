@@ -4,13 +4,13 @@ import numpy as np
 import pandas as pd
 import shap
 from argparse import ArgumentParser
-from evaluation.SurvivalMetrics import SurvivalMetrics
-from manage.CoxTrainTestManager import CoxTrainTestManager
-from manage.GNNCoxTrainTestManager import GNNCoxTrainTestManager
+from src.evaluation.SurvivalMetrics import SurvivalMetrics
+from src.manage.CoxTrainTestManager import CoxTrainTestManager
+from src.manage.GNNCoxTrainTestManager import GNNCoxTrainTestManager
 from torch_geometric.explain import Explainer, GNNExplainer
 from torch_geometric.utils import from_networkx
-from utils.FeatureSelector import FeatureSelector
-from utils.PreProcessor import PreProcessor
+from src.utils.FeatureSelector import FeatureSelector
+from src.utils.PreProcessor import PreProcessor
 
 
 def argument_parser():
@@ -330,6 +330,7 @@ def main() -> None:
         raise ValueError("Invalid value of architecture. The valid choices are gcn and gat")
 
     print("Finished leave one out CV !")
+    print("Start computing evaluation metrics...")
 
     # 4 : EVALUATE PERFORMANCES
     status_ttp, time_ttp = df['Progression_1'].to_numpy().astype(bool), df['Time to progression (days)'].to_numpy()
@@ -474,6 +475,8 @@ def main() -> None:
         fig, ax = plt.subplots()
         nx.draw(nx_graph_os)
         plt.savefig(f"results/graph-survivalAnalysis-{architecture}-os.png")
+
+        print("Finished computing evaluation metrics !")
 
 
 if __name__ == '__main__':
