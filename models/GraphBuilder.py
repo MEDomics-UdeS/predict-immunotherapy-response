@@ -5,7 +5,7 @@ import torch
 from torch_geometric.utils import from_networkx
 
 
-class BuildGraph:
+class GraphBuilder:
     """
     Graph builder model for Graph Neural Network.
     """

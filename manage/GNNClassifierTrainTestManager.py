@@ -2,7 +2,7 @@ import numpy as np
 import torch
 import networkx as nx
 from sklearn.model_selection import KFold, train_test_split
-from models.BuildGraph import BuildGraph
+from models.GraphBuilder import GraphBuilder
 from models.GATClassifier import GATClassifier
 from models.GCNClassifier import GCNClassifier
 from torch_geometric.utils import from_networkx
@@ -148,7 +148,7 @@ class GNNClassifierTrainTestManager:
 
         # Build networkx graph with pruning
         distance_matrix = euclidean_distances(X)
-        build_graph = BuildGraph(X, y, group)
+        build_graph = GraphBuilder(X, y, group)
         build_graph.build_graph(distance_matrix, max_neighbors, True)
         nx_graph = build_graph.nx_graph
 

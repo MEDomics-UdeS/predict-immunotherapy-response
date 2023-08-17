@@ -9,8 +9,8 @@ from manage.CoxTrainTestManager import CoxTrainTestManager
 from manage.GNNCoxTrainTestManager import GNNCoxTrainTestManager
 from torch_geometric.explain import Explainer, GNNExplainer
 from torch_geometric.utils import from_networkx
-from utils.featureSelection import featureSelection
-from utils.preProcessing import preProcessing
+from utils.FeatureSelector import FeatureSelector
+from utils.PreProcessor import PreProcessor
 
 
 def argument_parser():
@@ -91,12 +91,12 @@ def main() -> None:
     df = df.loc[df["Cohort"] == "Naive"]
 
     # Drop NaN values
-    df = preProcessing.delete_nan_values(df)
+    df = PreProcessor.delete_nan_values(df)
 
     # Relabel patients (t = 183 days = 6 months)
     t = 183
-    df = preProcessing.relabel_patients(df, "Progression_1", "Time to progression (days)", t)
-    df = preProcessing.relabel_patients(df, "Alive_0", "Overall survival (days)", t)
+    df = PreProcessor.relabel_patients(df, "Progression_1", "Time to progression (days)", t)
+    df = PreProcessor.relabel_patients(df, "Alive_0", "Overall survival (days)", t)
 
     # Normalize initial biomarkers
     features_to_normalize = ["Age at advanced disease diagnosis",
@@ -106,7 +106,7 @@ def main() -> None:
                              "CD274 expression",
                              "M1M2 expression"]
 
-    df.loc[:, features_to_normalize] = preProcessing.normalize_data(df.loc[:, features_to_normalize])
+    df.loc[:, features_to_normalize] = PreProcessor.normalize_data(df.loc[:, features_to_normalize])
 
     # Extract labels
     # TTP :
@@ -279,8 +279,8 @@ def main() -> None:
 
     # Compute feature importance
     # TTP :
-    features_name_ttp = featureSelection.feature_importance(df.loc[:, features_name], y_clf_ttp, False)
-    features_name_os = featureSelection.feature_importance(df.loc[:, features_name], y_clf_os, False)
+    features_name_ttp = FeatureSelector.feature_importance(df.loc[:, features_name], y_clf_ttp, False)
+    features_name_os = FeatureSelector.feature_importance(df.loc[:, features_name], y_clf_os, False)
 
     # Select the most n_features important features
     if n_features < len(features_name):

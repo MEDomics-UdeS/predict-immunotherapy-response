@@ -3,7 +3,7 @@ import numpy as np
 from sklearn.preprocessing import StandardScaler
 
 
-class preProcessing:
+class PreProcessor:
     """
     Implementation of some preprocessings.
     """

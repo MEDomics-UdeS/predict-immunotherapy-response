@@ -47,18 +47,18 @@ class LogisticRegressionTrainTestManager:
         loss_function = torch.nn.BCELoss()
         optimizer = torch.optim.Adam(self.model.parameters(), lr=lr, weight_decay=reg)
 
+        # Set train-validation set
+        X_train, X_val, y_train, y_val = train_test_split(X,
+                                                          y,
+                                                          test_size=0.2)
+
+        # Convert in tensor
+        X_train_torch = torch.from_numpy(X_train).float()
+        X_val_torch = torch.from_numpy(X_val).float()
+        y_train_torch = torch.from_numpy(y_train).float().unsqueeze(1)
+        y_val_torch = torch.from_numpy(y_val).float().unsqueeze(1)
+
         for epoch in range(n_epochs):
-
-            # Set train-validation set #
-            X_train, X_val, y_train, y_val = train_test_split(X,
-                                                              y,
-                                                              test_size=0.2)
-
-            # Convert in tensor
-            X_train_torch = torch.from_numpy(X_train).float()
-            X_val_torch = torch.from_numpy(X_val).float()
-            y_train_torch = torch.from_numpy(y_train).float().unsqueeze(1)
-            y_val_torch = torch.from_numpy(y_val).float().unsqueeze(1)
 
             # Clear gradients
             optimizer.zero_grad()

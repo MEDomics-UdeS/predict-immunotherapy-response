@@ -2,7 +2,7 @@ import networkx as nx
 import numpy as np
 import torch
 from sklearn.model_selection import KFold
-from models.BuildGraph import BuildGraph
+from models.GraphBuilder import GraphBuilder
 from torch_geometric.utils import from_networkx
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import euclidean_distances
@@ -51,7 +51,7 @@ class GNNCoxTrainTestManager:
         """
 
         # Initialize train loss and validation loss lists
-        train_loss, val_loss = [], []
+        train_loss_list, val_loss_list = [], []
 
         # Define loss function and optimizer
         loss_function = torch.nn.BCELoss()
@@ -85,7 +85,7 @@ class GNNCoxTrainTestManager:
             loss_train = loss_function(out_train, pyg_graph_train.y)
 
             # Add train loss to train_loss list
-            train_loss.append(loss_train.item())
+            train_loss_list.append(loss_train.item())
 
             # Backward pass (gradients computation)
             loss_train.backward()
@@ -100,9 +100,9 @@ class GNNCoxTrainTestManager:
             loss_val = loss_function(out_val, pyg_graph.y[index_val])
 
             # Add validation loss to val_loss list
-            val_loss.append(loss_val.item())
+            val_loss_list.append(loss_val.item())
 
-        return train_loss, val_loss
+        return train_loss_list, val_loss_list
 
     def train_cox_model(self,
                         X: np.ndarray[np.ndarray[float]],
@@ -162,7 +162,7 @@ class GNNCoxTrainTestManager:
 
         # Build networkx graph
         distance_matrix = euclidean_distances(X)
-        build_graph = BuildGraph(X, y_clf, group)
+        build_graph = GraphBuilder(X, y_clf, group)
         build_graph.build_graph(distance_matrix, max_neighbors, True)
         nx_graph = build_graph.nx_graph
 

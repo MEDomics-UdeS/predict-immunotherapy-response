@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from sklearn.ensemble import RandomForestClassifier
 
 
-class featureSelection:
+class FeatureSelector:
     """
     Implementation of features correlation and features selection.
     """
