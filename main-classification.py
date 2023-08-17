@@ -214,7 +214,7 @@ def main() -> None:
                          "ID17",
                          "ID18"]
 
-    elif sigmut == "comb":
+    else:
         features_name = ["Age at advanced disease diagnosis",
                          "CD8+ T cell score",
                          "Genome mut per mb",
@@ -266,9 +266,6 @@ def main() -> None:
                          "ID17",
                          "ID18"]
 
-    else:
-        raise ValueError("Invalid name of problem. The valid choices are : no-sigmut, only-sigmut and comb.")
-
     # Compute feature importance
     features_name = FeatureSelector.feature_importance(df.loc[:, features_name], y, False)
 
@@ -290,7 +287,7 @@ def main() -> None:
                                                                          lr,
                                                                          reg)
 
-    elif architecture == "gcn" or "gat":
+    else:
         manager = GNNClassifierTrainTestManager(architecture)
         group = df["Tumour type"].to_numpy()
         scores, classes, train_loss, val_loss, nx_graph = manager.leave_one_out_cv(X,
@@ -300,9 +297,6 @@ def main() -> None:
                                                                                    lr,
                                                                                    reg,
                                                                                    max_neighbors)
-
-    else:
-        raise ValueError("Invalid value of architecture. The valid choices are gcn and gat")
 
     # Write output in .xlsx file, for LogReg and sigmut + other case
     if architecture == 'logistic-regression' and sigmut == 'comb':
@@ -396,7 +390,7 @@ def main() -> None:
         nx.draw(nx_graph)
         plt.savefig(f"results/graph-classif-{architecture}.png")
 
-        print("Finished computing evaluation metrics !")
+    print("Finished computing evaluation metrics !")
 
 
 if __name__ == '__main__':

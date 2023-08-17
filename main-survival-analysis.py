@@ -222,7 +222,7 @@ def main() -> None:
                          "ID17",
                          "ID18"]
 
-    elif sigmut == "comb":
+    else:
         features_name = ["Age at advanced disease diagnosis",
                          "CD8+ T cell score",
                          "Genome mut per mb",
@@ -274,9 +274,6 @@ def main() -> None:
                          "ID17",
                          "ID18"]
 
-    else:
-        raise ValueError("Invalid name of problem. The valid choices are : no-sigmut, only-sigmut, and comb.")
-
     # Compute feature importance
     # TTP :
     features_name_ttp = FeatureSelector.feature_importance(df.loc[:, features_name], y_clf_ttp, False)
@@ -302,7 +299,7 @@ def main() -> None:
         manager_os = CoxTrainTestManager()
         risk_scores_os, risk_classes_os = manager_os.leave_one_out_cv(X_os, y_cox_os)
 
-    elif architecture == "gcn" or "gat":
+    else:
         group = df["Tumour type"].to_numpy()
         # TTP :
         manager_ttp = GNNCoxTrainTestManager(architecture)
@@ -325,9 +322,6 @@ def main() -> None:
                                                                                    lr,
                                                                                    reg,
                                                                                    max_neighbors)
-
-    else:
-        raise ValueError("Invalid value of architecture. The valid choices are gcn and gat")
 
     print("Finished leave one out CV !")
     print("Start computing evaluation metrics...")
@@ -476,7 +470,7 @@ def main() -> None:
         nx.draw(nx_graph_os)
         plt.savefig(f"results/graph-survivalAnalysis-{architecture}-os.png")
 
-        print("Finished computing evaluation metrics !")
+    print("Finished computing evaluation metrics !")
 
 
 if __name__ == '__main__':
