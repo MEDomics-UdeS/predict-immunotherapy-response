@@ -1,56 +1,69 @@
 # Predict immunotherapy response project
 This project contains the code which predicts response to immune checkpoint inhibition treatment from biomarkers of patients suffering from cancers. The goal is to highlight the predictive property of mutational signatures in immune checkpoint inhibition treatment.
 
-This project is in collaboration with the *MEDomics UdeS* laboratory from the Sherbrooke University, and a biology laboratory of Sherbrooke University.
+This project is in collaboration with the *MEDomics UdeS* laboratory from the Université de Sherbrooke, and a biology laboratory of Université de Sherbrooke.
 
 The internship report is available on : https://bit.ly/3KBhwb2 
 
 ## Project summary
-The goal of this project is to create a machine learning model which **predicts if a patient suffering from cancer will respond or not to an immunotherapy treatment called immune checkpoint inhibition**. For that, we collected data from the following article https://doi.org/10.1158/1078-0432.CCR-20-1163, which contains 82 patients with 6 features called biomarkers (age, exome TMB, genome TMB, CD8+ T cell score, M1M2 expression, CD274 expression), and we added new features / biomarkers called mutational signatures (SBS and INDEL). We want to know if mutational signatures give better performances.
+The goal of this project is to create a machine learning model which **predicts immune checkpoint inhibitor treatment response for patients suffering from cancers**. For that, we collected data from the following article https://doi.org/10.1158/1078-0432.CCR-20-1163, which contains 82 patients with 6 features called biomarkers (age, exome TMB, genome TMB, CD8+ T cell score, M1M2 expression, CD274 expression), and we added new features / biomarkers called mutational signatures (SBS and INDEL). We want to know if the addition of mutational signatures gives better performances.
 
-First, we built a **classification model** which predicts if the disease will progress by a time t. 3 models have been implemented : Logistic Regression, Graph Convolutional Network (GCN), and Graph Attention Network (GAT).
+First, we built a **classification model** which predicts if the disease will progress by a time t. 3 models have been implemented : 
+- Logistic Regression : notebooks A.1 and A.2;
+- Graph Convolutional Network (GCN) : notebooks A.3 and A.4 ;
+- Graph Attention Network (GAT) : notebooks A.3 and A.4 with putting 'gat' in 'architecture' variable.
 
-Next, we built a **survival analysis model** which predicts the risk level for a patient to die and for a disease to progress, and which estimates the survival probability and the no progression of the disease along days. 3 models have been implemented : Cox Model (which is equivalent to logistic regression but in a survival analysis context), GCN Cox Model, and GAT Cox Model.
+Next, we built a **survival analysis model** which predicts the risk level for a patient to die and for a disease to progress, and which estimates the survival probability and the no-progression of the disease through days. 3 models have been implemented : 
+- Cox Model (which is equivalent to logistic regression but in a survival analysis context) : notebooks B.1 and B.2 ;
+- GCN Cox Model : notebooks B.3 and B.4 ;
+- GAT Cox Model : notebooks B.3 and B.4 with putting 'gat' in 'architecture' variable.
 
-To know if mutational signatures are predictive features, we tested the models without mutational signatures and with mutational signatures. 
+To know if mutational signatures are predictive features, we tested the models with and without mutational signatures. 
 
 To have more details, you can read the internship report (link above).
 
 ## Installation
-Before running codes, please follow these steps to make sure you have all dependencies :
-1. Clone the repository
-2. Move to the root of this repository
-3. Create a Python virtual environment, called venv : `python3 -m venv venv`
-4. Activate the virtual environment :
+First, follow these steps to make sure you have all dependencies :
+1. Open a terminal
+2. Clone the repository : 
+    1. With HTTPS : `git clone https://github.com/MEDomics-UdeS/predict-immunotherapy-response.git`
+    2. With SSH : `git clone git@github.com:MEDomics-UdeS/predict-immunotherapy-response.git`
+3. Move to the root of this repository : `cd predict-immunotherapy-response`
+4. Create a Python virtual environment, called venv : `python3 -m venv venv`
+5. Activate the virtual environment :
     1. Linux (bash) : `source venv/bin/activate`
     2. Windows (powershell) : `venv\Scripts\activate.ps1` 
-5. Install the requirements : ```pip install -r requirements.txt```
+6. Install the requirements : ```pip install -r requirements.txt```
 
 ## Executions
-
-The pipelines need some arguments, described below :
-- --sigmut : to include mutational signatures or not, and how.
-    - `no-sigmut` : no mutational signatures. Only the biomarkers from the reference article are included.
-    - `only-sigmut-sbs` : include only SBS mutational signatures.
-    - `only-sigmut-indel` : include only INDEL mutational signatures. 
-    - `only-sigmut-comb` : include only SBS and INDEL mutational signatures.
-    - `comb` : include biomarkers from the reference article and the mutational signatures.
-- --architecture : the model architecture :
-    - `logistic-regression` : the logistic regression, for binary classification problem.
-    - `gcn` : the Graph Convolutional Network, for binary classification problem, or survival analysis problem.
-    - `gat` : the Graph Attention Network, for binary classification problem, or survival analysis problem.
-    - `cox` : the Cox Model, for survival analysis problem.
-- --n_features : the n_features most important features will be considered for each patient
-- --n_epochs : the number of epochs to train the models. The Cox Model is trained on 1 epoch.
-- --lr : the learning rate used during the Stochastic Gradient Descent. Not used in Cox Model.
-- --reg : the regularization factor used during the loss computation. Not used in Cox Model.
-- --max_neighbors (only for Graph Neural Networks) : the maximum of neighbors for each node of the graph.
 
 ### Classification problem
 
 #### Python scripts
 
-The Python file containing the whole pipeline is the `main-classification.py` file.
+The Python file containing the whole pipeline is the `main-classification.py` file. To execute it with default arguments, you can enter this command :
+
+```
+python3 main-classification.py
+```
+
+You can also add arguments manually :
+- --sigmut (default : `comb`) : to include mutational signatures or not, and how.
+    - `no-sigmut` : no mutational signatures. Only the biomarkers from the reference article are included.
+    - `only-sigmut-sbs` : include only SBS mutational signatures.
+    - `only-sigmut-indel` : include only INDEL mutational signatures. 
+    - `only-sigmut-comb` : include only SBS and INDEL mutational signatures.
+    - `comb` : include biomarkers from the reference article and the mutational signatures.
+- --architecture (default : `logistic-regression`) : the model architecture :
+    - `logistic-regression` : the logistic regression, for binary classification problem.
+    - `gcn` : the Graph Convolutional Network, for binary classification problem, or survival analysis problem.
+    - `gat` : the Graph Attention Network, for binary classification problem, or survival analysis problem.
+    - `cox` : the Cox Model, for survival analysis problem.
+- --n_features (default : `5`) : the n_features most important features will be considered for each patient
+- --n_epochs (default : `150`) : the number of epochs to train the models. The Cox Model is trained on 1 epoch.
+- --lr (default : `0.005`) : the learning rate used during the Stochastic Gradient Descent. Not used in Cox Model.
+- --reg (default : `0.005`) : the regularization factor used during the loss computation. Not used in Cox Model.
+- --max_neighbors (only for Graph Neural Networks) (default : `2`) : the maximum of neighbors for each node of the graph.
 
 For the **Logistic Regression**, an example of running is the following :
 
@@ -74,9 +87,15 @@ To see examples of executions and results, you can read the following notebooks 
 
 ### Survival analysis problem
 
-#### Python script
+#### Python scripts
 
-The Python file containing the whole pipeline is the `main-survival-analysis.py` file.
+The Python file containing the whole pipeline is the `main-survival-analysis.py` file. To execute it with default arguments, you can enter this command :
+
+```
+python3 main-survival-analysis.py
+```
+
+You can also add arguments manually, which are the same as classification problem. There is only one difference : the default architecture is `cox`.
 
 For the **Cox Model**, an example of running is the following :
 

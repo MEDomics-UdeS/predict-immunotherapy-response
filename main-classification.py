@@ -24,7 +24,7 @@ def argument_parser():
     # Add sigmut argument
     parser.add_argument('--sigmut',
                         type=str,
-                        default='no-sigmut',
+                        default='comb',
                         choices=['no-sigmut', 'only-sigmut-sbs', 'only-sigmut-indel', 'only-sigmut-comb', 'comb'],
                         help='Integration of mutational signatures')
 
