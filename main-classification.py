@@ -74,7 +74,6 @@ def main() -> None:
     """
     Execute the whole pipeline, from reading to testing.
     """
-
     # Parse arguments
     args = argument_parser()
     sigmut = args.sigmut
@@ -86,7 +85,6 @@ def main() -> None:
     max_neighbors = args.max_neighbors
 
     # 1 : READING AND PREPROCESSING
-
     # Reading dataset
     df = pd.read_excel('data/cohort-dataset.xlsx')
 
@@ -114,7 +112,6 @@ def main() -> None:
     y = df["Progression_1"].to_numpy()
 
     # 2 : FEATURE SELECTION
-
     if sigmut == "no-sigmut":
         features_name = ["Age at advanced disease diagnosis",
                          "CD8+ T cell score",
@@ -270,7 +267,7 @@ def main() -> None:
                          "ID18"]
 
     else:
-        raise ValueError("Invalid name of problem. The valid choices are : no-sigmut, only-sigmut, and comb.")
+        raise ValueError("Invalid name of problem. The valid choices are : no-sigmut, only-sigmut and comb.")
 
     # Compute feature importance
     features_name = featureSelection.feature_importance(df.loc[:, features_name], y, False)
@@ -280,7 +277,6 @@ def main() -> None:
         features_name = features_name[:n_features]
 
     # 3 : EXECUTE LEAVE ONE OUT CROSS VALIDATION
-
     # Extract features
     X = df.loc[:, features_name].to_numpy()
 
@@ -313,10 +309,9 @@ def main() -> None:
         df["LogReg output sigmut+others"] = scores
         df.to_excel("data/cohort-dataset-with-logreg-output.xlsx")
 
-    print("Finished !")
+    print("Finished leave one out CV !")
 
     # 4 : EVALUATE PERFORMANCES
-
     # Classification metrics
     fpr, tpr = ClassificationMetrics.compute_roc_curve(y, scores)
     sensitivity, specificity = ClassificationMetrics.compute_sensitivity_specificity(y, classes)

@@ -73,7 +73,6 @@ def main() -> None:
     """
     Execute the whole pipeline, from reading to testing.
     """
-
     # Parse arguments
     args = argument_parser()
     sigmut = args.sigmut
@@ -85,7 +84,6 @@ def main() -> None:
     max_neighbors = args.max_neighbors
 
     # 1 : READING AND PREPROCESSING
-
     # Reading dataset
     df = pd.read_excel('data/cohort-dataset.xlsx')
 
@@ -122,7 +120,6 @@ def main() -> None:
                         dtype=[('Alive_0', '?'), ('Overall survival (days)', '<f8')])
 
     # 2 : FEATURE SELECTION
-
     if sigmut == "no-sigmut":
         features_name = ["Age at advanced disease diagnosis",
                          "CD8+ T cell score",
@@ -291,7 +288,6 @@ def main() -> None:
         features_name_os = features_name_os[:n_features]
 
     # 3 : EXECUTE LEAVE ONE OUT CROSS VALIDATION
-
     # Extract features
     X_ttp = df.loc[:, features_name_ttp].to_numpy()
     X_os = df.loc[:, features_name_os].to_numpy()
@@ -373,7 +369,6 @@ def main() -> None:
     fig = plt.figure()
 
     # 5 : PLOT RESULTS
-
     # Survival curves
     # TTP :
     ax0 = fig.add_subplot(121)

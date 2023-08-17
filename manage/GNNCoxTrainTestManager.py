@@ -57,20 +57,23 @@ class GNNCoxTrainTestManager:
         loss_function = torch.nn.BCELoss()
         optimizer = torch.optim.Adam(self.gnn_model.parameters(), lr=lr, weight_decay=reg)
 
+        # Set train-validation set
+        index_train, index_val, node_train, node_val = train_test_split([i for i in range(len(train_index))],
+                                                                        train_index,
+                                                                        test_size=0.2)
+
+        # Build train graph with removing validation nodes
+        nx_graph_train = nx_graph.copy()
+        for val in node_val:
+            nx_graph_train.remove_node(val)
+
+        # Convert Networkx graph to PyTorch geometric graph
+        pyg_graph_train = from_networkx(nx_graph_train)
+
+        # Convert validation networkx graph to PyTorch Geometric graph
+        pyg_graph = from_networkx(nx_graph)
+
         for epoch in range(n_epochs):
-
-            # Set train-validation set
-            index_train, index_val, node_train, node_val = train_test_split([i for i in range(len(train_index))],
-                                                                            train_index,
-                                                                            test_size=0.2)
-
-            # Build train graph with removing validation nodes
-            nx_graph_train = nx_graph.copy()
-            for val in node_val:
-                nx_graph_train.remove_node(val)
-
-            # Convert Networkx graph to PyTorch geometric graph
-            pyg_graph_train = from_networkx(nx_graph_train)
 
             # Clear gradients
             optimizer.zero_grad()
@@ -89,9 +92,6 @@ class GNNCoxTrainTestManager:
 
             # Update parameters
             optimizer.step()
-
-            # Convert validation networkx graph to PyTorch Geometric graph
-            pyg_graph = from_networkx(nx_graph)
 
             # Forward pass on validation set
             out_val = self.gnn_model.forward(pyg_graph.x, pyg_graph.edge_index)[index_val]
