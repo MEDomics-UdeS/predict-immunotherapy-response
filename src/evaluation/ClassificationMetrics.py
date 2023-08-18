@@ -1,5 +1,5 @@
 import numpy as np
-from sklearn.metrics import confusion_matrix, roc_curve, roc_auc_score
+from sklearn.metrics import confusion_matrix, roc_auc_score, roc_curve
 
 
 class ClassificationMetrics:

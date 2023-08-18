@@ -1,5 +1,5 @@
-from sksurv.linear_model import CoxPHSurvivalAnalysis
 import numpy as np
+from sksurv.linear_model import CoxPHSurvivalAnalysis
 
 
 class CoxModel:

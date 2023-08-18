@@ -1,7 +1,6 @@
 import torch
-import torch.nn.functional as F
 from torch import Tensor
-from torch.nn import Linear
+from torch.nn import Linear, ReLU, Sigmoid
 from torch_geometric.nn import GCNConv
 
 
@@ -23,8 +22,14 @@ class GCNClassifier(torch.nn.Module):
         # Convolutive layer
         self.conv = GCNConv(in_channels=n_features, out_channels=n_features//2)
 
+        # ReLU activation
+        self.relu = ReLU()
+
         # Classifier layer
         self.linear = Linear(in_features=n_features//2, out_features=1)
+
+        # Sigmoid activation
+        self.sigmoid = Sigmoid()
 
     def forward(self,
                 x: Tensor,
@@ -43,13 +48,13 @@ class GCNClassifier(torch.nn.Module):
         h = self.conv(x, edge_index)
 
         # Activation function
-        h = F.relu(h)
+        h = self.relu(h)
 
         # Classification layer
         h = self.linear(h)
 
         # Activation function
-        output = F.sigmoid(h)
+        output = self.sigmoid(h)
 
         return output
 

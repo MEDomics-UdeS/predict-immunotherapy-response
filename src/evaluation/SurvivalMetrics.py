@@ -1,7 +1,7 @@
 import numpy as np
+from sksurv.compare import compare_survival
 from sksurv.metrics import concordance_index_censored
 from sksurv.nonparametric import kaplan_meier_estimator
-from sksurv.compare import compare_survival
 
 
 class SurvivalMetrics:

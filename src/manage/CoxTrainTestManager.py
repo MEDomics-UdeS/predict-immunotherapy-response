@@ -1,6 +1,7 @@
 import numpy as np
-from src.models.CoxModel import CoxModel
 from sklearn.model_selection import KFold
+
+from src.models.CoxModel import CoxModel
 
 
 class CoxTrainTestManager:

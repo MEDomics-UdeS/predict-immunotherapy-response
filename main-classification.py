@@ -1,15 +1,17 @@
+from argparse import ArgumentParser
+
 import matplotlib.pyplot as plt
 import networkx as nx
 import numpy as np
 import pandas as pd
 import shap
 import torch
-from argparse import ArgumentParser
-from src.evaluation.ClassificationMetrics import ClassificationMetrics
-from src.manage.LogisticRegressionTrainTestManager import LogisticRegressionTrainTestManager
-from src.manage.GNNClassifierTrainTestManager import GNNClassifierTrainTestManager
 from torch_geometric.explain import Explainer, GNNExplainer
 from torch_geometric.utils import from_networkx
+
+from src.evaluation.ClassificationMetrics import ClassificationMetrics
+from src.manage.GNNClassifierTrainTestManager import GNNClassifierTrainTestManager
+from src.manage.LogisticRegressionTrainTestManager import LogisticRegressionTrainTestManager
 from src.utils.FeatureSelector import FeatureSelector
 from src.utils.FeaturesNames import get_features_names
 from src.utils.PreProcessor import PreProcessor

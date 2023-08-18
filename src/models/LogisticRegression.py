@@ -1,7 +1,6 @@
 import torch
-import torch.nn.functional as F
 from torch import Tensor
-from torch.nn import Linear
+from torch.nn import Linear, Sigmoid
 
 
 class LogisticRegression(torch.nn.Module):
@@ -22,6 +21,9 @@ class LogisticRegression(torch.nn.Module):
         # Classifier layer
         self.linear = Linear(in_features=n_features, out_features=1)
 
+        # Sigmoid activation
+        self.sigmoid = Sigmoid()
+
     def forward(self,
                 x: Tensor) -> Tensor:
         """
@@ -37,7 +39,7 @@ class LogisticRegression(torch.nn.Module):
         h = self.linear(x)
 
         # Activation function
-        output = F.sigmoid(h)
+        output = self.sigmoid(h)
 
         return output
 

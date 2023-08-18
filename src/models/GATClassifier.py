@@ -1,7 +1,6 @@
 import torch
-import torch.nn.functional as F
 from torch import Tensor
-from torch.nn import Linear
+from torch.nn import Linear, ReLU, Sigmoid
 from torch_geometric.nn import GATv2Conv
 
 
@@ -23,8 +22,14 @@ class GATClassifier(torch.nn.Module):
         # Attention-convolution layer
         self.att_conv = GATv2Conv(in_channels=n_features, out_channels=n_features//2)
 
+        # ReLU activation
+        self.relu = ReLU()
+
         # Classifier layer
         self.linear = Linear(in_features=n_features//2, out_features=1)
+
+        # Sigmoid activation
+        self.sigmoid = Sigmoid()
 
     def forward(self,
                 x: Tensor,
@@ -42,14 +47,14 @@ class GATClassifier(torch.nn.Module):
         # Attention layer
         h = self.att_conv(x, edge_index)
 
-        # Activation function
-        h = F.relu(h)
+        # ReLU activation
+        h = self.relu(h)
 
         # Linear layer
         h = self.linear(h)
 
-        # Activation function
-        output = F.sigmoid(h)
+        # Sigmoid activation
+        output = self.sigmoid(h)
 
         return output
 

@@ -1,14 +1,16 @@
+from argparse import ArgumentParser
+
 import matplotlib.pyplot as plt
 import networkx as nx
 import numpy as np
 import pandas as pd
 import shap
-from argparse import ArgumentParser
+from torch_geometric.explain import Explainer, GNNExplainer
+from torch_geometric.utils import from_networkx
+
 from src.evaluation.SurvivalMetrics import SurvivalMetrics
 from src.manage.CoxTrainTestManager import CoxTrainTestManager
 from src.manage.GNNCoxTrainTestManager import GNNCoxTrainTestManager
-from torch_geometric.explain import Explainer, GNNExplainer
-from torch_geometric.utils import from_networkx
 from src.utils.FeatureSelector import FeatureSelector
 from src.utils.FeaturesNames import get_features_names
 from src.utils.PreProcessor import PreProcessor

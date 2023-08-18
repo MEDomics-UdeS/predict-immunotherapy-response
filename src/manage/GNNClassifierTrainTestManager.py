@@ -1,12 +1,13 @@
+import networkx as nx
 import numpy as np
 import torch
-import networkx as nx
+from sklearn.metrics.pairwise import euclidean_distances
 from sklearn.model_selection import KFold, train_test_split
-from src.models.GraphBuilder import GraphBuilder
+from torch_geometric.utils import from_networkx
+
 from src.models.GATClassifier import GATClassifier
 from src.models.GCNClassifier import GCNClassifier
-from torch_geometric.utils import from_networkx
-from sklearn.metrics.pairwise import euclidean_distances
+from src.models.GraphBuilder import GraphBuilder
 
 
 class GNNClassifierTrainTestManager:
