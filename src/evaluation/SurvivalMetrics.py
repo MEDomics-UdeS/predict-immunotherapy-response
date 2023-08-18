@@ -37,7 +37,7 @@ class SurvivalMetrics:
 
         ### Returns :
         - x-axis : time points ;
-        - y-axis : no event probability for each time point.
+        - y-axis : no-event probability for each time point.
         """
         return kaplan_meier_estimator(status, time)
 

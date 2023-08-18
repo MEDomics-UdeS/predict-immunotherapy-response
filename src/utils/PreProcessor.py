@@ -55,7 +55,7 @@ class PreProcessor:
         - t : the time when we look at.
 
         ### Returns :
-        The dataframe relabellised
+        The dataframe relabelled
         """
         # Drop censored patients
         to_drop = df.index[

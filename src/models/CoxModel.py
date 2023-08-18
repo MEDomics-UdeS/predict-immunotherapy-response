@@ -16,11 +16,11 @@ class CoxModel:
               X: np.ndarray[np.ndarray[float]],
               y: np.ndarray[tuple[int, float]]) -> None:
         """
-        Trains the Cox Model with estimating hazard function parameters.
+        Trains the Cox Model.
 
         ### Parameters :
         - X (n_samples, n_features) : numpy array containing features of each ample
-        - y (n_samples, ) : numpy array containing the event status and the time surviving of each sample.
+        - y (n_samples, ) : numpy array containing the event status and the time of survival of each sample.
 
         ### Returns :
         None
@@ -53,7 +53,6 @@ class CoxModel:
         ### Returns :
         The cutoff between high risk and low risk score
         """
-        assert q > 0 and q < 1, "quantile must be between 0 and 1."
         return np.quantile(risk_scores, q)
 
     def predict_class(self,

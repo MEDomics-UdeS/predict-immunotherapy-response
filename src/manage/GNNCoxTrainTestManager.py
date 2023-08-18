@@ -135,7 +135,7 @@ class GNNCoxTrainTestManager:
         ### Parameters :
         - X (n_samples, n_features) : numpy array containing features of each sample
         - y_clf (n_samples, ) : Classifier labels, numpy array containing the classifier label of each patient
-        - y_cox (n_samples, ) : Cox Model labels, numpy array containing the event status and the time surviving of
+        - y_cox (n_samples, ) : Cox Model labels, numpy array containing the event status and the time of survival of
         each sample.
         - group (n_samples, ) : numpy array containing the group of each sample
         - n_epochs : the number of epochs.
