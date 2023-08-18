@@ -135,7 +135,6 @@ class GNNClassifierTrainTestManager:
         - nx_graph : the networkx graph used for training containing the features and the label of each sample, and the
         graph connectivity
         """
-
         # Split dataframe in n_samples groups
         n_samples, n_features = X.shape
         folds = KFold(n_splits=n_samples, shuffle=True).split(X)
@@ -162,10 +161,8 @@ class GNNClassifierTrainTestManager:
             # Instanciate model
             if self.architecture == "gcn":
                 self.model = GCNClassifier(n_features)
-            elif self.architecture == "gat":
-                self.model = GATClassifier(n_features)
             else:
-                raise ValueError("Invalid value of architecture. The valid choices are gcn and gat")
+                self.model = GATClassifier(n_features)
 
             # Training in train set
             train_loss, val_loss = self.train(nx_graph_train,

@@ -95,18 +95,20 @@ The Python file containing the whole pipeline is the `main-survival-analysis.py`
 python3 main-survival-analysis.py
 ```
 
-You can also add arguments manually, which are the same as classification problem. There is only one difference : the default architecture is `cox`.
+You can also add arguments manually, which are the same as classification problem. But there are 2 differences :
+- you can choose `architecture` arguments between `cox` (default), `gcn` and `gat`.
+- you can add a quantile used as threshold between low risk and high risk patients, called `quantile`, which must be between 0 and 1 (default : 0.5). Greater the quantile is, less patients are associated to high risk class.
 
 For the **Cox Model**, an example of running is the following :
 
 ```
-python3 main-survival-analysis.py --sigmut comb --architecture cox --n_features 5 --n_epochs 150 --lr 0.005 --reg 0.005
+python3 main-survival-analysis.py --sigmut comb --architecture cox --n_features 5 --n_epochs 150 --lr 0.005 --reg 0.005 --quantile 0.8
 ```
 
 For the **Graph Neural Network Cox Model**, an example of running is the following :
 
 ```
-python3 main-survival-analysis.py --sigmut no-sigmut --architecture gcn --n_features 6 --n_epochs 100 --lr 0.005 --reg 0.005 --max_neighbors 2
+python3 main-survival-analysis.py --sigmut no-sigmut --architecture gcn --n_features 6 --n_epochs 100 --lr 0.005 --reg 0.005 --max_neighbors 2 --quantile 0.8
 ```
 
 #### Jupyter notebooks examples

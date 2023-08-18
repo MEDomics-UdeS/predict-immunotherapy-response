@@ -127,7 +127,8 @@ class GNNCoxTrainTestManager:
                          n_epochs: int,
                          lr: float,
                          reg: float,
-                         max_neighbors: int) -> tuple[np.ndarray[float], np.ndarray[int], nx.DiGraph]:
+                         max_neighbors: int,
+                         q: float) -> tuple[np.ndarray[float], np.ndarray[int], nx.DiGraph]:
         """
         Executes the leave one out cross validation to find test risk scores and risk classes.
 
@@ -141,6 +142,7 @@ class GNNCoxTrainTestManager:
         - lr : the learning rate for the gradient descent
         - reg : the regularization factor in optimizer
         - max_neighbors : the maximum number of neighbors per sample
+        - q : quantile used as cutoff between high risk and low risk
 
         ### Returns :
         - risk_scores (n_samples, ) : numpy array containing the risk score of each sample
@@ -148,6 +150,7 @@ class GNNCoxTrainTestManager:
         - nx_graph : the networkx graph used for training containing the eatures and the label of each sample, and the
         graph connectivity
         """
+        assert q > 0 and q < 1, "quantile must be between 0 and 1."
 
         # Split dataframe in n_samples groups
         n_samples, n_features = X.shape
@@ -170,10 +173,8 @@ class GNNCoxTrainTestManager:
             # Instanciate GNN classifier model and Cox Model
             if self.gnn_architecture == "gcn":
                 self.gnn_model = GCNClassifier(n_features)
-            elif self.gnn_architecture == "gat":
-                self.gnn_model = GATClassifier(n_features)
             else:
-                raise ValueError("Invalid value of architecture. The valid choices are gcn and gat")
+                self.gnn_model = GATClassifier(n_features)
             self.cox_model = CoxModel()
 
             # Build train graph with removing test nodes

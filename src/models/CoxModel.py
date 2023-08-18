@@ -41,27 +41,31 @@ class CoxModel:
         return self.model.predict(X)
 
     def find_cutoff(self,
-                    risk_scores: np.ndarray[float]) -> float:
+                    risk_scores: np.ndarray[float],
+                    q: float = 0.5) -> float:
         """
         Finds cutoff between high risk and low risk with computing median risk scores.
 
         ### Parameters :
         - risk_scores (n_samples, ) : numpy array containing the risk score of each sample
+        - q : the quantile used as threshold (between 0 and 1)
 
         ### Returns :
         The cutoff between high risk and low risk score
         """
-        return np.median(risk_scores)
+        assert q > 0 and q < 1, "quantile must be between 0 and 1."
+        return np.quantile(risk_scores, q)
 
     def predict_class(self,
                       risk_scores: np.ndarray[float],
                       cutoff: float) -> np.ndarray[int]:
         """
-        Predicts the risk class, 1 if high, 0 otherwise.
+        Predicts the risk class, 1 if high, 0 otherwise. If the risk score is more than cutoff, the patient
+        is assigned to the class 1 (high risk).
 
         ### Parameters :
         - risk_scores (n_samples, ) : numpy array containing the risk score of each sample
-        - cutoff : the cutoff between high risk and low risk
+        - cutoff : the cutoff between high risk and low risk.
 
         ### Returns :
         risk_classes (n_samples, ) : risk class of each sample

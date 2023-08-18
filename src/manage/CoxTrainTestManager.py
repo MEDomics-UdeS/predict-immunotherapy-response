@@ -22,7 +22,8 @@ class CoxTrainTestManager:
 
     def leave_one_out_cv(self,
                          X: np.ndarray[np.ndarray[float]],
-                         y: np.ndarray[tuple[int, float]]) -> tuple[np.ndarray, np.ndarray]:
+                         y: np.ndarray[tuple[int, float]],
+                         q: float) -> tuple[np.ndarray, np.ndarray]:
         """
         Executes the leave one out cross validation to find test risk scores and
         risk classes.
@@ -30,11 +31,14 @@ class CoxTrainTestManager:
         ### Parameters :
         - X (n_samples, n_features) : numpy array containing features of each sample
         - y (n_samples, ) : numpy array containing the event status and the time surviving of each sample.
+        - q : quantile used as threshold between low risk and high risk patients.
 
         ### Returns :
         - risk_scores (n_samples, ) : numpy array containing the risk score of each sample
         - risk_classes (n_samples, ) : numpy array containing the risk class of each sample
         """
+        assert q > 0 and q < 1, "quantile must be between 0 and 1."
+
         # Initialize risk score and class arrays
         risk_classes = np.zeros(y.shape)
         risk_scores = np.zeros(y.shape)
@@ -52,7 +56,7 @@ class CoxTrainTestManager:
 
             # Predict train scores and find cutoff
             train_scores = self.model.predict_risk_score(X[train_index])
-            cutoff = self.model.find_cutoff(train_scores)
+            cutoff = self.model.find_cutoff(train_scores, q)
 
             # Forward pass on test set
             risk_scores[test_index] = self.model.predict_risk_score(X[test_index])

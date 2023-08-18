@@ -66,6 +66,12 @@ def argument_parser():
                         type=int,
                         default=2,
                         help='Max of neighbors per node (for GNN)')
+    
+    # Add quantile argument
+    parser.add_argument('--quantile',
+                        type=float,
+                        default=0.5,
+                        help='Quantile used as cutoff between high risk and low risk patients.')
 
     arguments = parser.parse_args()
 
@@ -173,6 +179,9 @@ def main() -> None:
     lr = args.lr
     reg = args.reg
     max_neighbors = args.max_neighbors
+    q = args.quantile
+
+    assert q > 0 and q < 1, "Quantile must be between 0 and 1."
 
     # 1 : READING AND PREPROCESSING
     df, y_clf_ttp, y_cox_ttp, y_clf_os, y_cox_os = Preprocess()
@@ -192,10 +201,10 @@ def main() -> None:
     if architecture == "cox":
         # TTP :
         manager_ttp = CoxTrainTestManager()
-        risk_scores_ttp, risk_classes_ttp = manager_ttp.leave_one_out_cv(X_ttp, y_cox_ttp)
+        risk_scores_ttp, risk_classes_ttp = manager_ttp.leave_one_out_cv(X_ttp, y_cox_ttp, q)
         # OS :
         manager_os = CoxTrainTestManager()
-        risk_scores_os, risk_classes_os = manager_os.leave_one_out_cv(X_os, y_cox_os)
+        risk_scores_os, risk_classes_os = manager_os.leave_one_out_cv(X_os, y_cox_os, q)
 
     else:
         group = df["Tumour type"].to_numpy()
@@ -208,7 +217,8 @@ def main() -> None:
                                                                                        n_epochs,
                                                                                        lr,
                                                                                        reg,
-                                                                                       max_neighbors)
+                                                                                       max_neighbors,
+                                                                                       q)
 
         # OS :
         manager_os = GNNCoxTrainTestManager(architecture)
@@ -219,7 +229,8 @@ def main() -> None:
                                                                                    n_epochs,
                                                                                    lr,
                                                                                    reg,
-                                                                                   max_neighbors)
+                                                                                   max_neighbors,
+                                                                                   q)
 
     print("Finished leave one out CV !")
     print("Start computing evaluation metrics...")
