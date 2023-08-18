@@ -19,7 +19,7 @@ class CoxModel:
         Trains the Cox Model.
 
         ### Parameters :
-        - X (n_samples, n_features) : numpy array containing features of each ample
+        - X (n_samples, n_features) : numpy array containing features of each sample
         - y (n_samples, ) : numpy array containing the event status and the time of survival of each sample.
 
         ### Returns :

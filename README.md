@@ -6,7 +6,7 @@ This project is in collaboration with the *MEDomics UdeS* laboratory from the Un
 The internship report is available on : https://bit.ly/3KBhwb2 
 
 ## Project summary
-The goal of this project is to create a machine learning model which **predicts immune checkpoint inhibitor treatment response for patients suffering from cancers**. For that, we collected data from the following article https://doi.org/10.1158/1078-0432.CCR-20-1163, which contains 82 patients with 6 features called biomarkers (age, exome TMB, genome TMB, CD8+ T cell score, M1M2 expression, CD274 expression), and we added new features / biomarkers called mutational signatures (SBS and INDEL). We want to know if the addition of mutational signatures gives better performances.
+The goal of this project is to create a machine learning model which **predicts immune checkpoint inhibitor treatment response for patients suffering from cancers**. For that, we collected data from the following article https://doi.org/10.1158/1078-0432.CCR-20-1163, which contains 82 patients with 6 features called biomarkers (age, exome TMB, genome TMB, CD8+ T cell score, M1M2 expression, CD274 expression), and we added new features / biomarkers called mutational signatures (SBS and INDEL). We want to know if the addition of mutational signatures gives better performances. Data are available in the `data/` folder of this repository.
 
 First, we built a **classification model** which predicts if the disease will progress by a time t. 3 models have been implemented : 
 - Logistic Regression : notebooks A.1 and A.2;
