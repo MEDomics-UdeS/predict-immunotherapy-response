@@ -9,11 +9,13 @@ class LogisticRegression(torch.nn.Module):
     """
     def __init__(self,
                  n_features: int) -> None:
-        """
-        Sets the layers of the Logistic Regression model.
+        """Sets the layers of the Logistic Regression model.
 
-        ### Parameters :
-        - n_features : the number of features for each sample
+        Args:
+            n_features : the number of features for each sample
+
+        Returns:
+            None
         """
         # Parent's constructor
         super().__init__()
@@ -26,14 +28,13 @@ class LogisticRegression(torch.nn.Module):
 
     def forward(self,
                 x: Tensor) -> Tensor:
-        """
-        Executes the forward pass.
+        """Executes the forward pass.
 
-        ### Parameters :
-        - x (n_samples, n_features) : tensor containing features of each sample
+        Args:
+            x (n_samples, n_features) : tensor containing features of each sample
 
-        ### Returns :
-        - output (n_samples, ) : tensor with positive class probability of each sample
+        Returns:
+            output (n_samples, ) : tensor with positive class probability of each sample
         """
         # Classifier layer
         h = self.linear(x)
@@ -46,15 +47,14 @@ class LogisticRegression(torch.nn.Module):
     def predict_class(self,
                       x: Tensor,
                       threshold: float = 0.5) -> Tensor:
-        """
-        Predicts class of each sample.
+        """Predicts class of each sample.
 
-        ### Parameters :
-        - x (n_samples, n_features) : tensor containing features of each sample
-        - threshold : the probability used as threshold between 0 and 1 classes
+        Args:
+            x (n_samples, n_features) : tensor containing features of each sample
+            threshold : the probability used as threshold between 0 and 1 classes
 
-        ### Returns :
-        (n_samples, ) tensor with class of each sample
+        Returns:
+            (n_samples, ) tensor with class of each sample
         """
         # Model output
         output = self.forward(x)

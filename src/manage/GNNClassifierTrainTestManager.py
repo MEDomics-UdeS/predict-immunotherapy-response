@@ -15,14 +15,13 @@ class GNNClassifierTrainTestManager:
     Train-test manager for Graph Neural Network classification model.
     """
     def __init__(self, architecture: str) -> None:
-        """
-        GNNClassifierTrainTestManager class builder.
+        """GNNClassifierTrainTestManager class builder.
 
-        ### Parameters :
-        - architecture ('gcn' or 'gat'): GNN architecture : gcn or gat
+        Args:
+            architecture ('gcn' or 'gat'): GNN architecture : gcn or gat
 
-        ### Returns :
-        None
+        Returns:
+            None
         """
         self.model = None
         self.architecture = architecture
@@ -33,19 +32,19 @@ class GNNClassifierTrainTestManager:
               lr: float,
               reg: float,
               train_index: list[int]) -> tuple[list[float], list[float]]:
-        """
-        Trains the model for n_epochs with 80% train 20% validation.
+        """Trains the model for n_epochs with 80% train 20% validation.
 
-        ### Parameters :
-        - nx_graph : the networkx graph containing the features and the label of each sample, and the graph connectivity
-        - n_epochs : the number of epochs.
-        - lr : the learning rate for the gradient descent
-        - reg : the regularization factor in optimizer
-        - train_index : the dataset index of each train sample
+        Args:
+            nx_graph : the networkx graph containing the features and the label of each sample, and the graph
+            connectivity
+            n_epochs : the number of epochs.
+            lr : the learning rate for the gradient descent
+            reg : the regularization factor in optimizer
+            train_index : the dataset index of each train sample
 
-        ### Returns :
-        - train_loss (n_epochs, ) : list containing the train loss for each epoch
-        - val_loss (n_epochs, ) : list containing the validation loss for each epoch
+        Returns:
+            train_loss (n_epochs, ) : list containing the train loss for each epoch
+            val_loss (n_epochs, ) : list containing the validation loss for each epoch
         """
 
         # Initialize train loss and validation loss lists
@@ -115,26 +114,24 @@ class GNNClassifierTrainTestManager:
                                                     list[float],
                                                     list[float],
                                                     nx.DiGraph]:
-        """
-        Executes the leave one out cross validation to find test scores and
-        labels.
+        """Executes the leave one out cross validation to find test scores and labels.
 
-        ### Parameters :
-        - X (n_samples, n_features) : numpy array containing the features of each sample
-        - y (n_samples,) : numpy array containing the label of each sample
-        - group (n_samples, ) : numpy array containing the group of each sample
-        - n_epochs : the number of epochs.
-        - lr : the learning rate for the gradient descent
-        - reg : the regularization factor in optimizer
-        - max_neighbors : the maximum number of neighbors per sample
+        Args:
+            X (n_samples, n_features) : numpy array containing the features of each sample
+            y (n_samples,) : numpy array containing the label of each sample
+            group (n_samples, ) : numpy array containing the group of each sample
+            n_epochs : the number of epochs.
+            lr : the learning rate for the gradient descent
+            reg : the regularization factor in optimizer
+            max_neighbors : the maximum number of neighbors per sample
 
-        ### Returns :
-        - test_scores (n_samples, ) : numpy array containing the test score of each sample
-        - test_classes (n_samples, ) : numpy array containing the test class of each sample
-        - train_losses (n_samples, n_epochs) : list containing the train loss for each sample and epoch
-        - val_losses (n_samples, n_epochs) : list containing the validation loss for each sample and epoch
-        - nx_graph : the networkx graph used for training containing the features and the label of each sample, and the
-        graph connectivity
+        Returns :
+            test_scores (n_samples, ) : numpy array containing the test score of each sample
+            test_classes (n_samples, ) : numpy array containing the test class of each sample
+            train_losses (n_samples, n_epochs) : list containing the train loss for each sample and epoch
+            val_losses (n_samples, n_epochs) : list containing the validation loss for each sample and epoch
+            nx_graph : the networkx graph used for training containing the features and the label of each sample, and
+            the graph connectivity
         """
         # Split dataframe in n_samples groups
         n_samples, n_features = X.shape

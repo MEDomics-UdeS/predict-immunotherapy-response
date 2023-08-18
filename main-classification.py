@@ -80,15 +80,14 @@ def argument_parser():
 
 
 def Preprocess() -> tuple[pd.DataFrame, np.ndarray[int]]:
-    """
-    Reads the dataset, drops non naive patients and NaN values, relabels patients, and normalizes initial biomarkers.
+    """Reads the dataset, drops non naive patients and NaN values, relabels patients, and normalizes initial biomarkers.
 
-    ### Parameters :
-    None
+    Args:
+        None
 
-    ### Returns :
-    - The preprocessed dataframe containing the dataset.
-    - The label of each patient.
+    Returns:
+        The preprocessed dataframe containing the dataset.
+        The label of each patient.
     """
     # Reading dataset
     df = pd.read_excel('data/cohort-dataset.xlsx')
@@ -123,17 +122,16 @@ def SelectFeatures(df: pd.DataFrame,
                    y: np.ndarray[int],
                    features_name: list[str],
                    n_features: int) -> list[str]:
-    """
-    Selects the n_features most important features, using the Random Forest feature importance.
+    """Selects the n_features most important features, using the Random Forest feature importance.
 
-    ### Parameters :
-    - df (n_samples, n_dataset) : the dataframe containing the whole dataset.
-    - y (n_samples, ) : the label of each patient.
-    - features_name : the name of each feature.
-    - n_features : the number of features to select.
+    Args:
+        df (n_samples, n_dataset) : the dataframe containing the whole dataset.
+        y (n_samples, ) : the label of each patient.
+        features_name : the name of each feature.
+        n_features : the number of features to select.
 
-    ### Returns :
-    The list of features names to select, which are the most important.
+    Returns:
+        The list of features names to select, which are the most important.
     """
     # Compute feature importance
     features_name = FeatureSelector.feature_importance(df.loc[:, features_name], y, False)

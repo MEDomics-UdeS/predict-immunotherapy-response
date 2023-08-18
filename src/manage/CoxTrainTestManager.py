@@ -12,11 +12,11 @@ class CoxTrainTestManager:
         """
         CoxTrainTestManager class builder.
 
-        ### Parameters :
-        None
+        Args:
+            None
 
-        ### Returns :
-        None
+        Returns:
+            None
         """
         self.model = None
 
@@ -24,18 +24,16 @@ class CoxTrainTestManager:
                          X: np.ndarray[np.ndarray[float]],
                          y: np.ndarray[tuple[int, float]],
                          q: float) -> tuple[np.ndarray, np.ndarray]:
-        """
-        Executes the leave one out cross validation to find test risk scores and
-        risk classes.
+        """Executes the leave one out cross validation to find test risk scores and risk classes.
 
-        ### Parameters :
-        - X (n_samples, n_features) : numpy array containing features of each sample
-        - y (n_samples, ) : numpy array containing the event status and the time of survival of each sample.
-        - q : quantile used as threshold between low risk and high risk patients.
+        Args:
+            X (n_samples, n_features) : numpy array containing features of each sample
+            y (n_samples, ) : numpy array containing the event status and the time of survival of each sample.
+            q : quantile used as threshold between low risk and high risk patients.
 
-        ### Returns :
-        - risk_scores (n_samples, ) : numpy array containing the risk score of each sample
-        - risk_classes (n_samples, ) : numpy array containing the risk class of each sample
+        Returns :
+            risk_scores (n_samples, ) : numpy array containing the risk score of each sample
+            risk_classes (n_samples, ) : numpy array containing the risk class of each sample
         """
         assert q > 0 and q < 1, "quantile must be between 0 and 1."
 

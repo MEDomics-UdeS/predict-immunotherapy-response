@@ -16,14 +16,13 @@ class GNNCoxTrainTestManager:
     Train-test manager for gnn Cox Model.
     """
     def __init__(self, gnn_architecture: str) -> None:
-        """
-        gnnCoxTrainTestManager class builder.
+        """GNNCoxTrainTestManager class builder.
 
-        ### Parameters :
-        - gnn_architecture ('gcn' or 'gat') : the type of GNN architecture
+        Args:
+            gnn_architecture ('gcn' or 'gat') : the type of GNN architecture
 
-        ### Returns :
-        None
+        Returns:
+            None
         """
         self.gnn_model = None
         self.cox_model = None
@@ -35,19 +34,19 @@ class GNNCoxTrainTestManager:
                   lr: float,
                   reg: float,
                   train_index: list[int]) -> tuple[list[float], list[float]]:
-        """
-        Trains the GNN model for n_epochs with 80% train 20% validation.
+        """Trains the GNN model for n_epochs with 80% train 20% validation.
 
-        ### Parameters :
-        - nx_graph : the networkx graph containing the features and the label of each sample, and the graph connectivity
-        - n_epochs : the number of epochs.
-        - lr : the learning rate for the gradient descent
-        - reg : the regularization factor in optimizer
-        - train_index : the dataset index of each train sample
+        Args:
+            nx_graph : the networkx graph containing the features and the label of each sample, and the graph
+            connectivity
+            n_epochs : the number of epochs.
+            lr : the learning rate for the gradient descent
+            reg : the regularization factor in optimizer
+            train_index : the dataset index of each train sample
 
-        ### Returns :
-        - train_loss (n_epochs, ) : list containing the train loss for each epoch
-        - val_loss (n_epochs, ) : list containing the validation loss for each epoch
+        Returns:
+            train_loss (n_epochs, ) : list containing the train loss for each epoch
+            val_loss (n_epochs, ) : list containing the validation loss for each epoch
         """
 
         # Initialize train loss and validation loss lists
@@ -107,15 +106,14 @@ class GNNCoxTrainTestManager:
     def train_cox_model(self,
                         X: np.ndarray[np.ndarray[float]],
                         y: np.ndarray[tuple[int, float]]) -> None:
-        """
-        Trains the Cox Model.
+        """Trains the Cox Model.
 
-        ### Parameters :
-        - X (n_samples, n_features) : numpy array containing features of each sample
-        - y (n_samples, ) : numpy array containing the event status and the time surviving of each sample.
+        Args:
+            X (n_samples, n_features) : numpy array containing features of each sample
+            y (n_samples, ) : numpy array containing the event status and the time surviving of each sample.
 
-        ### Returns :
-        None
+        Returns:
+            None
         """
         self.cox_model.train(X, y)
 
@@ -129,26 +127,25 @@ class GNNCoxTrainTestManager:
                          reg: float,
                          max_neighbors: int,
                          q: float) -> tuple[np.ndarray[float], np.ndarray[int], nx.DiGraph]:
-        """
-        Executes the leave one out cross validation to find test risk scores and risk classes.
+        """Executes the leave one out cross validation to find test risk scores and risk classes.
 
-        ### Parameters :
-        - X (n_samples, n_features) : numpy array containing features of each sample
-        - y_clf (n_samples, ) : Classifier labels, numpy array containing the classifier label of each patient
-        - y_cox (n_samples, ) : Cox Model labels, numpy array containing the event status and the time of survival of
-        each sample.
-        - group (n_samples, ) : numpy array containing the group of each sample
-        - n_epochs : the number of epochs.
-        - lr : the learning rate for the gradient descent
-        - reg : the regularization factor in optimizer
-        - max_neighbors : the maximum number of neighbors per sample
-        - q : quantile used as cutoff between high risk and low risk
+        Args:
+            X (n_samples, n_features) : numpy array containing features of each sample
+            y_clf (n_samples, ) : Classifier labels, numpy array containing the classifier label of each patient
+            y_cox (n_samples, ) : Cox Model labels, numpy array containing the event status and the time of survival of
+            each sample.
+            group (n_samples, ) : numpy array containing the group of each sample
+            n_epochs : the number of epochs.
+            lr : the learning rate for the gradient descent
+            reg : the regularization factor in optimizer
+            max_neighbors : the maximum number of neighbors per sample
+            q : quantile used as cutoff between high risk and low risk
 
-        ### Returns :
-        - risk_scores (n_samples, ) : numpy array containing the risk score of each sample
-        - risk_classes (n_samples, ) : numpy array containing the risk class of each sample
-        - nx_graph : the networkx graph used for training containing the eatures and the label of each sample, and the
-        graph connectivity
+        Returns:
+            risk_scores (n_samples, ) : numpy array containing the risk score of each sample
+            risk_classes (n_samples, ) : numpy array containing the risk class of each sample
+            nx_graph : the networkx graph used for training containing the eatures and the label of each sample, and the
+            graph connectivity
         """
         assert q > 0 and q < 1, "quantile must be between 0 and 1."
 

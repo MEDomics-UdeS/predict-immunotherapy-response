@@ -12,15 +12,14 @@ class FeatureSelector:
     @staticmethod
     def compute_pearson_correlation(df: pd.DataFrame,
                                     plot_heatmap: bool = False) -> pd.DataFrame:
-        """
-        Computes the Pearson correlation between each column, and plots the correlation heatmap.
+        """Computes the Pearson correlation between each column, and plots the correlation heatmap.
 
-        ### Parameters :
-        - df : the dataframe to analyze
-        - plot_heatmap (default False) : if True, print a heatmap of the correlation matrix.
+        Args:
+            df : the dataframe to analyze
+            plot_heatmap (default False) : if True, print a heatmap of the correlation matrix.
 
-        ### Returns :
-        The correlation matrix.
+        Returns:
+            The correlation matrix.
         """
         # Compute the correlation matrix
         correl = np.round(df.corr(), 2)
@@ -42,16 +41,15 @@ class FeatureSelector:
     def feature_importance(df: pd.DataFrame,
                            y: np.ndarray[int],
                            plot_hist: bool = False) -> np.ndarray[float]:
-        """
-        Computes the feature importance of the dataframe attributes using the Random Forest Feature Importance.
+        """Computes the feature importance of the dataframe attributes using the Random Forest Feature Importance.
 
-        ### Parameters :
-        - df : the dataframe to analyze
-        - y : the label data for df
-        - plot_hist (default False) : if True, print a histogram of each feature importance.
+        Args:
+            df : the dataframe to analyze
+            y : the label data for df
+            plot_hist (default False) : if True, print a histogram of each feature importance.
 
-        ### Returns :
-        - biomarkers_per_importance (n_features, ) : feature names sorted per importance
+        Returns:
+            biomarkers_per_importance (n_features, ) : feature names sorted per importance
         """
         # Fitting the RF classifier and compute the feature importances
         rf_clf = RandomForestClassifier(oob_score=True)

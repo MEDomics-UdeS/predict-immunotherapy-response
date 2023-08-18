@@ -15,13 +15,15 @@ class GraphBuilder:
                  X: np.ndarray[np.ndarray[float]],
                  y: np.ndarray[int],
                  group: np.ndarray[int | str]) -> None:
-        """
-        GraphBuilder class builder.
+        """GraphBuilder class builder.
 
-        ### Parameters :
-        - X (n_samples, n_features) : numpy array containing features of each sample
-        - y (n_samples, ) : numpy array containing the label of each sample
-        - group (n_samples, ) : numpy array containing the group of each sample : tumour type, or cluster.
+        Args:
+            X (n_samples, n_features) : numpy array containing features of each sample
+            y (n_samples, ) : numpy array containing the label of each sample
+            group (n_samples, ) : numpy array containing the group of each sample : tumour type, or cluster.
+
+        Returns:
+            None
         """
         self.X = X
         self.y = y
@@ -37,15 +39,14 @@ class GraphBuilder:
         self.pyg_graph = None
 
     def compute_adjacency_matrix(self) -> None:
-        """
-        Computes the graph adjacency matrix of the graph where a connection is established between each pair of
+        """Computes the graph adjacency matrix of the graph where a connection is established between each pair of
         patients within the same group.
 
-        ### Parameters :
-        None
+        Args:
+            None
 
-        ### Returns :
-        None
+        Returns:
+            None
         """
         shape_A = self.X.shape[0]
 
@@ -56,14 +57,13 @@ class GraphBuilder:
             self.adjacency_matrix[i] = np.where(self.group == group, 1, 0)
 
     def create_nx_graph_from_adjacency_matrix(self) -> None:
-        """
-        Creates the networkx graph from the adjacency matrix.
+        """Creates the networkx graph from the adjacency matrix.
 
-        ### Parameters :
-        None
+        Args:
+            None
 
-        ### Returns :
-        None
+        Returns:
+            None
         """
         # Formatting data to tensors
         X = torch.from_numpy(self.X).float()
@@ -84,15 +84,14 @@ class GraphBuilder:
     def prune_graph(self,
                     distance_matrix: np.ndarray[np.ndarray[float]],
                     max_neighbors: int) -> None:
-        """
-        Prunes the graph with keeping maximum the max_neighbors closest samples.
+        """Prunes the graph with keeping maximum the max_neighbors closest samples.
 
-        ### Parameters :
-        - distance_matrix (n_samples, n_samples): numpy array containing the distance between each sample
-        - max_neighbors : the maximum number of neighbors per sample
+        Args:
+            distance_matrix (n_samples, n_samples): numpy array containing the distance between each sample
+            max_neighbors : the maximum number of neighbors per sample
 
-        ### Returns :
-        None
+        Returns:
+            None
         """
         for i in range(distance_matrix.shape[0]):
             # Get neighbors of node i
@@ -124,16 +123,15 @@ class GraphBuilder:
                     distance_matrix: np.ndarray[np.ndarray[float]],
                     max_neighbors: int,
                     pruning: bool = True) -> None:
-        """
-        Implements the whole pipeline of building Networkx and PyTorch geometric graphs.
+        """Implements the whole pipeline of building Networkx and PyTorch geometric graphs.
 
-        ### Parameters :
-        - distance_matrix (n_samples, n_samples): numpy array containing the distance between each sample
-        - max_neighbors : the maximum number of neighbors per sample
-        - pruning (default True): True if graph pruning, False otherwise
+        Args:
+            distance_matrix (n_samples, n_samples): numpy array containing the distance between each sample
+            max_neighbors : the maximum number of neighbors per sample
+            pruning (default True): True if graph pruning, False otherwise
 
-        ### Returns :
-        None
+        Returns:
+            None
         """
         # Compute adjacency matrix
         self.compute_adjacency_matrix()
@@ -149,14 +147,13 @@ class GraphBuilder:
         self.pyg_graph = from_networkx(self.nx_graph)
 
     def show_graph(self) -> None:
-        """
-        Displays the networkx graph.
+        """Displays the networkx graph.
 
-        ### Parameters :
-        None
+        Args:
+            None
 
-        ### Returns :
-        None
+        Returns:
+            None
         """
         fig, ax = plt.subplots(figsize=(10, 7))
         nx.draw(self.nx_graph)

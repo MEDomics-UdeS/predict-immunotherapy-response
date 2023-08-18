@@ -1,12 +1,11 @@
 def get_features_names() -> dict[str, list[str]]:
-    """
-    Defines the features names for each configuration, and returns it in dictionary structure.
+    """Defines the features names for each configuration, and returns it in dictionary structure.
 
-    ### Parameters :
-    None
+    Args:
+        None
 
-    ### Returns :
-    A dictionary structure, where keys are the configurations, and values are the features names.
+    Returns:
+        A dictionary structure, where keys are the configurations, and values are the features names.
     """
     features_names_no_sigmut = ["Age at advanced disease diagnosis",
                                 "CD8+ T cell score",

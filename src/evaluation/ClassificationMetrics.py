@@ -9,16 +9,15 @@ class ClassificationMetrics:
     @staticmethod
     def compute_roc_curve(y_true: np.ndarray[int],
                           y_score: np.ndarray[float]) -> tuple[np.ndarray[float], np.ndarray[float]]:
-        """
-        Computes the ROC curve associated to the prediction.
+        """Computes the ROC curve associated to the prediction.
 
-        ### Parameters :
-        - y_true (n_samples, ) : numpy array containing the correct classes for each sample
-        - y_score (n_samples, ): numpy array containing the output score predicted by the model (class 1 probability)
+        Args:
+            y_true (n_samples, ) : numpy array containing the correct classes for each sample
+            y_score (n_samples, ): numpy array containing the output score predicted by the model (class 1 probability)
 
-        ### Returns :
-        - The False Positive Rate (x-axis) for each threshold
-        - The True Positive Rate (y-axis) for each threshold
+        Returns :
+            The False Positive Rate (x-axis) for each threshold
+            The True Positive Rate (y-axis) for each threshold
         """
         fpr, tpr, thresholds = roc_curve(y_true, y_score)
         return fpr, tpr
@@ -26,31 +25,29 @@ class ClassificationMetrics:
     @staticmethod
     def compute_auc(y_true: np.ndarray[int],
                     y_score: np.ndarray[float]) -> float:
-        """
-        Computes the AUC associated to the prediction.
+        """Computes the AUC associated to the prediction.
 
-        ### Parameters :
-        - y_true (n_samples, ) : numpy array containing the correct class for each sample
-        - y_score (n_samples, ): numpy array containing the output score predicted by the model (class 1 probability)
+        Args:
+            y_true (n_samples, ) : numpy array containing the correct class for each sample
+            y_score (n_samples, ): numpy array containing the output score predicted by the model (class 1 probability)
 
-        ### Returns :
-        The AUC score
+        Returns :
+            The AUC score
         """
         return np.round(roc_auc_score(y_true, y_score), 2)
 
     @staticmethod
     def compute_sensitivity_specificity(y_true: np.ndarray[int],
                                         y_pred: np.ndarray[int]) -> tuple[float, float]:
-        """
-        Computes the sensitivity and the specificity of the prediction.
+        """Computes the sensitivity and the specificity of the prediction.
 
-        ### Parameters :
-        - y_true (n_samples, ) : numpy array containing the correct class for each sample
-        - y_pred (n_samples, ): numpy array containing the predicted class for each sample
+        Args:
+            y_true (n_samples, ) : numpy array containing the correct class for each sample
+            y_pred (n_samples, ): numpy array containing the predicted class for each sample
 
-        ### Returns :
-        - The sensitivity
-        - The specificity
+        Returns:
+            The sensitivity
+            The specificity
         """
         # Compute the confusion matrix
         TP, FP, FN, TN = confusion_matrix(y_true, y_pred).ravel()

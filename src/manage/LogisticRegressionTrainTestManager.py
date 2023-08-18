@@ -10,14 +10,13 @@ class LogisticRegressionTrainTestManager:
     Train-test manager for Logistic Regression model.
     """
     def __init__(self) -> None:
-        """
-        LogisticRegressionTrainTestManager class builder.
+        """LogisticRegressionTrainTestManager class builder.
 
-        ### Parameters :
-        None
+        Args:
+            None
 
-        ### Returns :
-        None
+        Returns:
+            None
         """
         self.model = None
 
@@ -27,19 +26,18 @@ class LogisticRegressionTrainTestManager:
               n_epochs: int,
               lr: float,
               reg: float) -> tuple[list[float], list[float]]:
-        """
-        Trains the model for n_epochs with 80% train 20% validation.
+        """Trains the model for n_epochs with 80% train 20% validation.
 
-        ### Parameters :
-        - X (n_samples, n_features) : numpy array containing the features of each sample
-        - y (n_samples,) : numpy array containing the label of each sample
-        - n_epochs : the number of epochs.
-        - lr : the learning rate for the gradient descent
-        - reg : the regularization factor in optimizer
+        Args:
+            X (n_samples, n_features) : numpy array containing the features of each sample
+            y (n_samples,) : numpy array containing the label of each sample
+            n_epochs : the number of epochs.
+            lr : the learning rate for the gradient descent
+            reg : the regularization factor in optimizer
 
-        ### Returns :
-        - train_loss (n_epochs, ) : list containing the train loss for each epoch
-        - val_loss (n_epochs, ) : list containing the validation loss for each epoch
+        Returns:
+            train_loss (n_epochs, ) : list containing the train loss for each epoch
+            val_loss (n_epochs, ) : list containing the validation loss for each epoch
         """
         # Initialize train loss and validation loss lists
         train_loss_list, val_loss_list = [], []
@@ -97,22 +95,21 @@ class LogisticRegressionTrainTestManager:
                          lr: float,
                          reg: float,
                          threshold: float) -> tuple[np.ndarray[float], np.ndarray[int], list[float], list[float]]:
-        """
-        Executes the leave one out cross validation to find test scores and labels.
+        """Executes the leave one out cross validation to find test scores and labels.
 
-        ### Parameters :
-        - X (n_samples, n_features) : numpy array containing the features of each sample
-        - y (n_samples,) : numpy array containing the label of each sample
-        - n_epochs : the number of epochs.
-        - lr : the learning rate for the gradient descent
-        - reg : the regularization factor in optimizer
-        - threshold : the probability used as threshold between 0 and 1 classes
+        Args:
+            X (n_samples, n_features) : numpy array containing the features of each sample
+            y (n_samples,) : numpy array containing the label of each sample
+            n_epochs : the number of epochs.
+            lr : the learning rate for the gradient descent
+            reg : the regularization factor in optimizer
+            threshold : the probability used as threshold between 0 and 1 classes
 
-        ### Returns :
-        - test_scores (n_samples, ) : numpy array containing the test score of each sample
-        - test_classes (n_samples, ) : numpy array containing the test class of each sample
-        - train_losses (n_samples, n_epochs) : list containing the train loss for each sample and epoch
-        - val_losses (n_samples, n_epochs) : list containing the validation loss for each sample and epoch
+        Returns:
+            test_scores (n_samples, ) : numpy array containing the test score of each sample
+            test_classes (n_samples, ) : numpy array containing the test class of each sample
+            train_losses (n_samples, n_epochs) : list containing the train loss for each sample and epoch
+            val_losses (n_samples, n_epochs) : list containing the validation loss for each sample and epoch
         """
 
         # Split dataframe in n_samples groups

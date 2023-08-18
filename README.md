@@ -1,7 +1,7 @@
 # Predict immunotherapy response project
 This project contains the code which predicts response to immune checkpoint inhibition treatment from biomarkers of patients suffering from cancers. The goal is to highlight the predictive property of mutational signatures in immune checkpoint inhibition treatment.
 
-This project is in collaboration with the *MEDomics UdeS* laboratory from the Université de Sherbrooke, and a biology laboratory of Université de Sherbrooke.
+This project is in collaboration with the *MEDomics UdeS* laboratory from the Université de Sherbrooke, and a biology laboratory of the Université de Sherbrooke.
 
 The internship report is available on : https://bit.ly/3KBhwb2 
 

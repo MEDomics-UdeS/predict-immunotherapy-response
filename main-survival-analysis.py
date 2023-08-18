@@ -83,18 +83,17 @@ def Preprocess() -> tuple[pd.DataFrame,
                           np.ndarray[tuple[int, float]],
                           np.ndarray[int],
                           np.ndarray[tuple[int, float]]]:
-    """
-    Reads the dataset, drops non naive patients and NaN values, relabels patients, and normalizes initial biomarkers.
+    """Reads the dataset, drops non naive patients and NaN values, relabels patients, and normalizes initial biomarkers.
 
-    ### Parameters :
-    None
+    Args:
+        None
 
-    ### Returns :
-    - The preprocessed dataframe containing the dataset.
-    - The label of each patient for classification for TTP
-    - The label of each patient for survival analysis for TTP
-    - The label of each patient for classification for OS
-    - The label of each patient for survival analysis for OS
+    Returns:
+        The preprocessed dataframe containing the dataset.
+        The label of each patient for classification for TTP
+        The label of each patient for survival analysis for TTP
+        The label of each patient for classification for OS
+        The label of each patient for survival analysis for OS
     """
     # Reading dataset
     df = pd.read_excel('data/cohort-dataset.xlsx')
@@ -139,19 +138,18 @@ def SelectFeatures(df: pd.DataFrame,
                    y_clf_os: np.ndarray[int],
                    features_name: list[str],
                    n_features: int) -> list[str]:
-    """
-    Selects the n_features most important features, using the Random Forest feature importance.
+    """Selects the n_features most important features, using the Random Forest feature importance.
 
-    ### Parameters :
-    - df (n_samples, n_dataset) : the dataframe containing the whole dataset.
-    - y_clf_ttp (n_samples, ) : the label of each patient, for TTP.
-    - y_clf_os (n_samples, ) : the label of each patient, for OS.
-    - features_name : the name of each feature.
-    - n_features : the number of features to select.
+    Args:
+        df (n_samples, n_dataset) : the dataframe containing the whole dataset.
+        y_clf_ttp (n_samples, ) : the label of each patient, for TTP.
+        y_clf_os (n_samples, ) : the label of each patient, for OS.
+        features_name : the name of each feature.
+        n_features : the number of features to select.
 
-    ### Returns :
-    - The list of features names to select, which are the most important, for TTP.
-    - The list of features names to select, which are the most important, for OS.
+    Returns:
+        The list of features names to select, which are the most important, for TTP.
+        The list of features names to select, which are the most important, for OS.
     """
     # Compute feature importance
     # TTP :

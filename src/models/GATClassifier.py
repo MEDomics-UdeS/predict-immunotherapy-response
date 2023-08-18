@@ -10,11 +10,13 @@ class GATClassifier(torch.nn.Module):
     """
     def __init__(self,
                  n_features: int) -> None:
-        """
-        Sets the layers of the Graph Attention Network model.
+        """Sets the layers of the Graph Attention Network model.
 
-        ### Parameters :
-        - n_features : the number of features for each sample
+        Args:
+            n_features : the number of features for each sample
+
+        Returns:
+            None
         """
         # Parent's constructor
         super().__init__()
@@ -34,15 +36,14 @@ class GATClassifier(torch.nn.Module):
     def forward(self,
                 x: Tensor,
                 edge_index: Tensor) -> Tensor:
-        """
-        Executes the forward pass.
+        """Executes the forward pass.
 
-        ### Parameters :
-        - x (n_samples, n_features) : tensor containing features of each sample
-        - edge_index (2, n_edges) : tensor containing the graph connectivity
+        Args:
+            x (n_samples, n_features) : tensor containing features of each sample
+            edge_index (2, n_edges) : tensor containing the graph connectivity
 
-        ### Returns :
-        - output (n_samples, ) : tensor with positive class probability of each sample
+        Returns:
+            output (n_samples, ) : tensor with positive class probability of each sample
         """
         # Attention layer
         h = self.att_conv(x, edge_index)
@@ -62,16 +63,15 @@ class GATClassifier(torch.nn.Module):
                       x: Tensor,
                       edge_index: Tensor,
                       threshold: float = 0.5) -> Tensor:
-        """
-        Predicts class of each sample.
+        """Predicts class of each sample.
 
-        ### Parameters :
-        - x (n_samples, n_features) : tensor containing features of each sample
-        - edge_index (2, n_edges) : tensor containing the graph connectivity
-        - threshold : the probability used as threshold between 0 and 1 classes
+        Args:
+            x (n_samples, n_features) : tensor containing features of each sample
+            edge_index (2, n_edges) : tensor containing the graph connectivity
+            threshold : the probability used as threshold between 0 and 1 classes
 
-        ### Returns :
-        (n_samples, ) tensor with class of each sample
+        Returns:
+            (n_samples, ) tensor with class of each sample
         """
         # Model output
         output = self.forward(x, edge_index)
@@ -82,14 +82,13 @@ class GATClassifier(torch.nn.Module):
     def forward_conv(self,
                      x: Tensor,
                      edge_index: Tensor) -> Tensor:
-        """
-        Predicts new samples embeddings obtained after attention-convolution.
+        """Predicts new samples embeddings obtained after attention-convolution.
 
-        ### Parameters :
-        - x (n_samples, n_features) : tensor containing features of each sample
-        - edge_index (2, n_edges) : tensor containing the graph connectivity
+        Args:
+            x (n_samples, n_features) : tensor containing features of each sample
+            edge_index (2, n_edges) : tensor containing the graph connectivity
 
-        ### Returns :
-        (n_samples, n_features) tensor containing the new features of each sample
+        Returns:
+            (n_samples, n_features) tensor containing the new features of each sample
         """
         return self.att_conv(x, edge_index)

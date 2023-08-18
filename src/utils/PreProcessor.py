@@ -9,27 +9,25 @@ class PreProcessor:
     """
     @staticmethod
     def delete_nan_values(df: pd.DataFrame) -> pd.DataFrame:
-        """
-        Deletes rows which contains at least 1 NaN value.
+        """Deletes rows which contains at least 1 NaN value.
 
-        ### Parameters :
-        - df : the dataframe to update
+        Args:
+            df : the dataframe to update
 
-        ### Returns :
-        The dataframe without NaN values.
+        Returns:
+            The dataframe without NaN values.
         """
         return df.dropna(axis=0)
 
     @staticmethod
     def normalize_data(X: np.ndarray[np.ndarray[float]]) -> np.ndarray[np.ndarray[float]]:
-        """
-        Normalizes the numpy array using the Standard Scaler.
+        """Normalizes the numpy array using the Standard Scaler.
 
-        ### Parameters :
-        - X : 2D numpy array to normalize
+        Args:
+            X : 2D numpy array to normalize
 
-        ### Returns :
-        The 2D normalized numpy array
+        Returns:
+            The 2D normalized numpy array
         """
         return StandardScaler().fit_transform(X)
 
@@ -38,8 +36,7 @@ class PreProcessor:
                          status_name: str,
                          time_name: str,
                          t: float) -> pd.DataFrame:
-        """
-        Relabels patients depending on the event status, the time of event, and
+        """Relabels patients depending on the event status, the time of event, and
         the time t when we look at.
 
         The 4 possibles cases are :
@@ -48,14 +45,14 @@ class PreProcessor:
         - status = 0 & time < t : x : we don't know what happened between time and t. We drop these censored patients
         - status = 0 & time > t : 0 : we know during the the window [0,t], the event has not occured.
 
-        ### Parameters :
-        - df : the dataframe to update
-        - status_name : the name of the status event column in the dataframe
-        - time_name : the name of the time event column in the dataframe
-        - t : the time when we look at.
+        Args:
+            df : the dataframe to update
+            status_name : the name of the status event column in the dataframe
+            time_name : the name of the time event column in the dataframe
+            t : the time when we look at.
 
-        ### Returns :
-        The dataframe relabelled
+        Returns:
+            The dataframe relabelled
         """
         # Drop censored patients
         to_drop = df.index[
