@@ -11,6 +11,7 @@ from src.manage.GNNClassifierTrainTestManager import GNNClassifierTrainTestManag
 from torch_geometric.explain import Explainer, GNNExplainer
 from torch_geometric.utils import from_networkx
 from src.utils.FeatureSelector import FeatureSelector
+from src.utils.FeaturesNames import get_features_names
 from src.utils.PreProcessor import PreProcessor
 
 
@@ -70,21 +71,17 @@ def argument_parser():
     return arguments
 
 
-def main() -> None:
+def Preprocess() -> tuple[pd.DataFrame, np.ndarray[int]]:
     """
-    Executes the whole pipeline, from reading to testing.
-    """
-    # Parse arguments
-    args = argument_parser()
-    sigmut = args.sigmut
-    architecture = args.architecture
-    n_features = args.n_features
-    n_epochs = args.n_epochs
-    lr = args.lr
-    reg = args.reg
-    max_neighbors = args.max_neighbors
+    Reads the dataset, drops non naive patients and NaN values, relabels patients, and normalizes initial biomarkers.
 
-    # 1 : READING AND PREPROCESSING
+    ### Parameters :
+    None
+
+    ### Returns :
+    - The preprocessed dataframe containing the dataset.
+    - The label of each patient.
+    """
     # Reading dataset
     df = pd.read_excel('data/cohort-dataset.xlsx')
 
@@ -111,167 +108,56 @@ def main() -> None:
     # Extract labels
     y = df["Progression_1"].to_numpy()
 
-    # 2 : FEATURE SELECTION
-    if sigmut == "no-sigmut":
-        features_name = ["Age at advanced disease diagnosis",
-                         "CD8+ T cell score",
-                         "Genome mut per mb",
-                         "Exome mut per mb",
-                         "CD274 expression",
-                         "M1M2 expression"]
+    return df, y
 
-    elif sigmut == "only-sigmut-sbs":
-        features_name = ["SBS1",
-                         "SBS2",
-                         "SBS3",
-                         "SBS4",
-                         "SBS5",
-                         "SBS7a",
-                         "SBS7b",
-                         "SBS7c",
-                         "SBS7d",
-                         "SBS8",
-                         "SBS10a",
-                         "SBS10b",
-                         "SBS10c",
-                         "SBS13",
-                         "SBS15",
-                         "SBS17a",
-                         "SBS17b",
-                         "SBS18",
-                         "SBS31",
-                         "SBS35",
-                         "SBS36",
-                         "SBS37",
-                         "SBS38",
-                         "SBS40",
-                         "SBS44",
-                         "SBS4426"]
 
-    elif sigmut == "only-sigmut-indel":
-        features_name = ["ID1",
-                         "ID2",
-                         "ID3",
-                         "ID4",
-                         "ID5",
-                         "ID6",
-                         "ID7",
-                         "ID8",
-                         "ID9",
-                         "ID10",
-                         "ID11",
-                         "ID12",
-                         "ID13",
-                         "ID14",
-                         "ID15",
-                         "ID16",
-                         "ID17",
-                         "ID18"]
+def SelectFeatures(df: pd.DataFrame,
+                   y: np.ndarray[int],
+                   features_name: list[str],
+                   n_features: int) -> list[str]:
+    """
+    Selects the n_features most important features, using the Random Forest feature importance.
 
-    elif sigmut == "only-sigmut-comb":
-        features_name = ["SBS1",
-                         "SBS2",
-                         "SBS3",
-                         "SBS4",
-                         "SBS5",
-                         "SBS7a",
-                         "SBS7b",
-                         "SBS7c",
-                         "SBS7d",
-                         "SBS8",
-                         "SBS10a",
-                         "SBS10b",
-                         "SBS10c",
-                         "SBS13",
-                         "SBS15",
-                         "SBS17a",
-                         "SBS17b",
-                         "SBS18",
-                         "SBS31",
-                         "SBS35",
-                         "SBS36",
-                         "SBS37",
-                         "SBS38",
-                         "SBS40",
-                         "SBS44",
-                         "SBS4426",
-                         "ID1",
-                         "ID2",
-                         "ID3",
-                         "ID4",
-                         "ID5",
-                         "ID6",
-                         "ID7",
-                         "ID8",
-                         "ID9",
-                         "ID10",
-                         "ID11",
-                         "ID12",
-                         "ID13",
-                         "ID14",
-                         "ID15",
-                         "ID16",
-                         "ID17",
-                         "ID18"]
+    ### Parameters :
+    - df (n_samples, n_dataset) : the dataframe containing the whole dataset.
+    - y (n_samples, ) : the label of each patient.
+    - features_name : the name of each feature.
+    - n_features : the number of features to select.
 
-    else:
-        features_name = ["Age at advanced disease diagnosis",
-                         "CD8+ T cell score",
-                         "Genome mut per mb",
-                         "Exome mut per mb",
-                         "CD274 expression",
-                         "M1M2 expression",
-                         "SBS1",
-                         "SBS2",
-                         "SBS3",
-                         "SBS4",
-                         "SBS5",
-                         "SBS7a",
-                         "SBS7b",
-                         "SBS7c",
-                         "SBS7d",
-                         "SBS8",
-                         "SBS10a",
-                         "SBS10b",
-                         "SBS10c",
-                         "SBS13",
-                         "SBS15",
-                         "SBS17a",
-                         "SBS17b",
-                         "SBS18",
-                         "SBS31",
-                         "SBS35",
-                         "SBS36",
-                         "SBS37",
-                         "SBS38",
-                         "SBS40",
-                         "SBS44",
-                         "SBS4426",
-                         "ID1",
-                         "ID2",
-                         "ID3",
-                         "ID4",
-                         "ID5",
-                         "ID6",
-                         "ID7",
-                         "ID8",
-                         "ID9",
-                         "ID10",
-                         "ID11",
-                         "ID12",
-                         "ID13",
-                         "ID14",
-                         "ID15",
-                         "ID16",
-                         "ID17",
-                         "ID18"]
-
+    ### Returns :
+    The list of features names to select, which are the most important.
+    """
     # Compute feature importance
     features_name = FeatureSelector.feature_importance(df.loc[:, features_name], y, False)
 
     # Select the most n_features important features
     if n_features < len(features_name):
         features_name = features_name[:n_features]
+
+    return features_name
+
+
+def main() -> None:
+    """
+    Executes the whole pipeline, from reading to testing.
+    """
+    # Parse arguments
+    args = argument_parser()
+    sigmut = args.sigmut
+    architecture = args.architecture
+    n_features = args.n_features
+    n_epochs = args.n_epochs
+    lr = args.lr
+    reg = args.reg
+    max_neighbors = args.max_neighbors
+
+    # 1 : READING AND PREPROCESSING
+    df, y = Preprocess()
+
+    # 2 : FEATURE SELECTION
+    dico_features_names = get_features_names()
+    features_name = dico_features_names[sigmut]
+    features_name = SelectFeatures(df, y, features_name, n_features)
 
     # 3 : EXECUTE LEAVE ONE OUT CROSS VALIDATION
     # Extract features

@@ -148,14 +148,15 @@ If you want to optimize hyper parameters for the classification problem, you can
 │       ├── GNNCoxTrainTestManager.py                   <- class handling train-test process of the GNN Cox Model
 │       ├── LogisticRegressionTrainTestManager.py       <- class handling train-test process of the logistic regression model
 |   ├── models                                          <- prediction models
-│       ├── BuildGraph.py                               <- class handling the building of the graph
+│       ├── GraphBuilder.py                             <- class handling the building of the graph
 │       ├── CoxModel.py                                 <- class handling the Cox Model architecture and its forward pass
 │       ├── GATClassifier.py                            <- class handling the GAT architecture and its forward pass
 │       ├── GCNClassifier.py                            <- class handling the GCN architecture and its forward pass
 │       ├── LogisticRegression.py                       <- class handling the logistic regression architecture and its forward pass
 |   ├── utils                                           <- some functions for feature selection and preprocessing
-│       ├── featureSelection.py                         <- class handling the selection of most important features
-│       ├── preProcessing.py                            <- class handling the data preprocessing
+│       ├── FeatureSelector.py                          <- class handling the selection of most important features
+│       ├── PreProcessor.py                             <- class handling the data preprocessing
+│       ├── FeaturesNames.py                            <- file storing names of the features used in the project
 ├── .gitignore
 ├── LICENSE 
 ├── main-classification.py                          <- main script for classification problem    
