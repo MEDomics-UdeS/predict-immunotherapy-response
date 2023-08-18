@@ -118,7 +118,7 @@ class GraphBuilder:
                 # Update neighbors list, distance_i, to_drop
                 neighbors_i = [n for n in self.nx_graph[i]]
                 distance_i = distance_matrix[i][neighbors_i]
-                number_to_drop = len(neighbors_i) - max_neighbors
+                number_to_drop -= 1
 
     def build_graph(self,
                     distance_matrix: np.ndarray[np.ndarray[float]],

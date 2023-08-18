@@ -179,7 +179,7 @@ def main() -> None:
     lr = args.lr
     reg = args.reg
     max_neighbors = args.max_neighbors
-    q = args.quantile
+    q = args.threshold
 
     assert q > 0 and q < 1, "Quantile must be between 0 and 1."
 

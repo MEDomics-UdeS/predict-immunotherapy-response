@@ -69,13 +69,7 @@ class CoxModel:
         ### Returns :
         risk_classes (n_samples, ) : risk class of each sample
         """
-        # Copy risk scores array
-        risk_classes = np.copy(risk_scores)
-
-        # 1 aggregation for risk_scores >= cutoff
-        risk_classes[risk_scores >= cutoff] = 1
-
-        # 0 aggregation for risk_scores < cutoff
-        risk_classes[risk_scores < cutoff] = 0
+        # 1 aggregation for risk_scores >= cutoff, 0 otherwise
+        risk_classes = np.array([1 if risk >= cutoff else 0 for risk in risk_scores])
 
         return risk_classes
