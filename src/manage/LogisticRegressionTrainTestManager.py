@@ -95,7 +95,8 @@ class LogisticRegressionTrainTestManager:
                          y: np.ndarray[int],
                          n_epochs: int,
                          lr: float,
-                         reg: float) -> tuple[np.ndarray[float], np.ndarray[int], list[float], list[float]]:
+                         reg: float,
+                         threshold: float) -> tuple[np.ndarray[float], np.ndarray[int], list[float], list[float]]:
         """
         Executes the leave one out cross validation to find test scores and labels.
 
@@ -105,6 +106,7 @@ class LogisticRegressionTrainTestManager:
         - n_epochs : the number of epochs.
         - lr : the learning rate for the gradient descent
         - reg : the regularization factor in optimizer
+        - threshold : the probability used as threshold between 0 and 1 classes
 
         ### Returns :
         - test_scores (n_samples, ) : numpy array containing the test score of each sample
@@ -148,7 +150,7 @@ class LogisticRegressionTrainTestManager:
 
             # Forward pass on test set (score and class)
             score_test = self.model.forward(X_test_torch).detach().numpy()[0]
-            class_test = self.model.predict_class(X_test_torch).detach().numpy()[0]
+            class_test = self.model.predict_class(X_test_torch, threshold).detach().numpy()[0]
 
             # Add score and class to scores and classes arrays
             test_scores[test_index] = score_test

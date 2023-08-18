@@ -66,9 +66,9 @@ def argument_parser():
                         type=int,
                         default=2,
                         help='Max of neighbors per node (for GNN)')
-    
+
     # Add quantile argument
-    parser.add_argument('--quantile',
+    parser.add_argument('--threshold',
                         type=float,
                         default=0.5,
                         help='Quantile used as cutoff between high risk and low risk patients.')

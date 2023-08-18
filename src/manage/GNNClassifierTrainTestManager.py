@@ -109,11 +109,12 @@ class GNNClassifierTrainTestManager:
                          n_epochs: int,
                          lr: float,
                          reg: float,
-                         max_neighbors: int) -> tuple[np.ndarray[float],
-                                                      np.ndarray[int],
-                                                      list[float],
-                                                      list[float],
-                                                      nx.DiGraph]:
+                         max_neighbors: int,
+                         threshold: float) -> tuple[np.ndarray[float],
+                                                    np.ndarray[int],
+                                                    list[float],
+                                                    list[float],
+                                                    nx.DiGraph]:
         """
         Executes the leave one out cross validation to find test scores and
         labels.
@@ -183,7 +184,8 @@ class GNNClassifierTrainTestManager:
                                             pyg_graph.edge_index).detach().numpy().reshape((1, -1))[0]
 
             class_test = self.model.predict_class(pyg_graph.x,
-                                                  pyg_graph.edge_index).detach().numpy().reshape((1, -1))[0]
+                                                  pyg_graph.edge_index,
+                                                  threshold).detach().numpy().reshape((1, -1))[0]
 
             # Add score and class to scores and classes arrays
             test_scores[test_index] = score_test[test_index]

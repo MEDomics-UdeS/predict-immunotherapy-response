@@ -64,17 +64,19 @@ You can also add arguments manually :
 - --lr (default : `0.005`) : the learning rate used during the Stochastic Gradient Descent. Not used in Cox Model.
 - --reg (default : `0.005`) : the regularization factor used during the loss computation. Not used in Cox Model.
 - --max_neighbors (only for Graph Neural Networks) (default : `2`) : the maximum of neighbors for each node of the graph.
+- --threshold (default : `0.5`) : the probability used as threshold between 0 and 1 classes. Must be between 0 and 1. Greater the threshold is, less 
+patients are associated to class 1.
 
 For the **Logistic Regression**, an example of running is the following :
 
 ```
-python3 main-classification.py --sigmut comb --architecture logistic-regression --n_features 5 --n_epochs 150 --lr 0.005 --reg 0.005
+python3 main-classification.py --sigmut comb --architecture logistic-regression --n_features 5 --n_epochs 150 --lr 0.005 --reg 0.005 --threshold 0.6
 ```
 
 For the **Graph Neural Network**, an example of running is the following :
 
 ```
-python3 main-classification.py --sigmut no-sigmut --architecture gcn --n_features 6 --n_epochs 100 --lr 0.005 --reg 0.005 --max_neighbors 2
+python3 main-classification.py --sigmut no-sigmut --architecture gcn --n_features 6 --n_epochs 100 --lr 0.005 --reg 0.005 --max_neighbors 2 --threshold 0.6
 ```
 
 #### Jupyter notebooks examples
@@ -97,18 +99,19 @@ python3 main-survival-analysis.py
 
 You can also add arguments manually, which are the same as classification problem. But there are 2 differences :
 - you can choose `architecture` arguments between `cox` (default), `gcn` and `gat`.
-- you can add a quantile used as threshold between low risk and high risk patients, called `quantile`, which must be between 0 and 1 (default : 0.5). Greater the quantile is, less patients are associated to high risk class.
+- the `threshold` arguments represents the **quantile** used as threshold between low risk and high risk patients.
+you can add a quantile used as threshold between low risk and high risk patients. Must be between 0 and 1 (default : 0.5). Greater the quantile is, less patients are associated to high risk class.
 
 For the **Cox Model**, an example of running is the following :
 
 ```
-python3 main-survival-analysis.py --sigmut comb --architecture cox --n_features 5 --n_epochs 150 --lr 0.005 --reg 0.005 --quantile 0.8
+python3 main-survival-analysis.py --sigmut comb --architecture cox --n_features 5 --n_epochs 150 --lr 0.005 --reg 0.005 --threshold 0.8
 ```
 
 For the **Graph Neural Network Cox Model**, an example of running is the following :
 
 ```
-python3 main-survival-analysis.py --sigmut no-sigmut --architecture gcn --n_features 6 --n_epochs 100 --lr 0.005 --reg 0.005 --max_neighbors 2 --quantile 0.8
+python3 main-survival-analysis.py --sigmut no-sigmut --architecture gcn --n_features 6 --n_epochs 100 --lr 0.005 --reg 0.005 --max_neighbors 2 --threshold 0.8
 ```
 
 #### Jupyter notebooks examples

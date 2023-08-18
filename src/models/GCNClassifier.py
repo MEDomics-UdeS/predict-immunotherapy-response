@@ -60,13 +60,15 @@ class GCNClassifier(torch.nn.Module):
 
     def predict_class(self,
                       x: Tensor,
-                      edge_index: Tensor) -> Tensor:
+                      edge_index: Tensor,
+                      threshold: float = 0.5) -> Tensor:
         """
         Predicts class of each sample.
 
         ### Parameters :
         - x (n_samples, n_features) : tensor containing features of each sample
         - edge_index (2, n_edges) : tensor containing the graph connectivity
+        - threshold : the probability used as threshold between 0 and 1 classes
 
         ### Returns :
         (n_samples, ) tensor with class of each sample
@@ -75,7 +77,7 @@ class GCNClassifier(torch.nn.Module):
         output = self.forward(x, edge_index)
 
         # Class prediction
-        return torch.where(output >= 0.5, 1, 0)
+        return torch.where(output >= threshold, 1, 0)
 
     def forward_conv(self,
                      x: Tensor,

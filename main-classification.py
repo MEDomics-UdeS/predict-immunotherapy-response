@@ -68,6 +68,12 @@ def argument_parser():
                         default=2,
                         help='Max of neighbors per node (for GNN)')
 
+    # Add classification threshold
+    parser.add_argument('--threshold',
+                        type=float,
+                        default=0.5,
+                        help='Probability value used as threshold between 0 and 1 classes.')
+
     arguments = parser.parse_args()
 
     return arguments
@@ -152,6 +158,9 @@ def main() -> None:
     lr = args.lr
     reg = args.reg
     max_neighbors = args.max_neighbors
+    threshold = args.threshold
+
+    assert threshold > 0 and threshold < 1, "threshold must be between 0 and 1."
 
     # 1 : READING AND PREPROCESSING
     df, y = Preprocess()
@@ -173,7 +182,8 @@ def main() -> None:
                                                                          y,
                                                                          n_epochs,
                                                                          lr,
-                                                                         reg)
+                                                                         reg,
+                                                                         threshold)
 
     else:
         manager = GNNClassifierTrainTestManager(architecture)
@@ -184,7 +194,8 @@ def main() -> None:
                                                                                    n_epochs,
                                                                                    lr,
                                                                                    reg,
-                                                                                   max_neighbors)
+                                                                                   max_neighbors,
+                                                                                   threshold)
 
     # Write output in .xlsx file, for LogReg and sigmut + other case
     if architecture == 'logistic-regression' and sigmut == 'comb':

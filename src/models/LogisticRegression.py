@@ -44,12 +44,14 @@ class LogisticRegression(torch.nn.Module):
         return output
 
     def predict_class(self,
-                      x: Tensor) -> Tensor:
+                      x: Tensor,
+                      threshold: float = 0.5) -> Tensor:
         """
         Predicts class of each sample.
 
         ### Parameters :
         - x (n_samples, n_features) : tensor containing features of each sample
+        - threshold : the probability used as threshold between 0 and 1 classes
 
         ### Returns :
         (n_samples, ) tensor with class of each sample
@@ -58,4 +60,4 @@ class LogisticRegression(torch.nn.Module):
         output = self.forward(x)
 
         # Class prediction
-        return torch.where(condition=output >= 0.5, self=1, other=0)
+        return torch.where(condition=output >= threshold, self=1, other=0)
