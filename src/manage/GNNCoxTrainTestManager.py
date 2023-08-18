@@ -167,7 +167,6 @@ class GNNCoxTrainTestManager:
         nx_graph = build_graph.nx_graph
 
         for i, (train_index, test_index) in enumerate(folds):
-
             # Instanciate GNN classifier model and Cox Model
             if self.gnn_architecture == "gcn":
                 self.gnn_model = GCNClassifier(n_features)

@@ -44,7 +44,6 @@ class CoxTrainTestManager:
         folds = KFold(n_splits=n_samples, shuffle=True).split(X)
 
         for i, (train_index, test_index) in enumerate(folds):
-
             # Instanciate model
             self.model = CoxModel()
 

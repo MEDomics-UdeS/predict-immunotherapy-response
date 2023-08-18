@@ -125,7 +125,6 @@ class LogisticRegressionTrainTestManager:
         train_losses_list, val_losses_list = [], []
 
         for i, (train_index, test_index) in enumerate(folds):
-
             # Set train-test set
             X_train, y_train = X[train_index], y[train_index]
             X_test = X[test_index]

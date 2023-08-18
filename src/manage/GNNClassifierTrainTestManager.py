@@ -154,7 +154,6 @@ class GNNClassifierTrainTestManager:
         nx_graph = build_graph.nx_graph
 
         for i, (train_index, test_index) in enumerate(folds):
-
             # Build train graph with removing test nodes
             nx_graph_train = nx_graph.copy()
             for test in test_index:

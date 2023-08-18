@@ -57,7 +57,6 @@ class PreProcessor:
         ### Returns :
         The dataframe relabellised
         """
-
         # Drop censored patients
         to_drop = df.index[
             np.where((df[status_name] == 0) & (df[time_name] < t))[0]]

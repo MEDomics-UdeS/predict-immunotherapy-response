@@ -94,9 +94,7 @@ class GraphBuilder:
         ### Returns :
         None
         """
-
         for i in range(distance_matrix.shape[0]):
-
             # Get neighbors of node i
             neighbors_i = [n for n in self.nx_graph[i]]
 
@@ -137,7 +135,6 @@ class GraphBuilder:
         ### Returns :
         None
         """
-
         # Compute adjacency matrix
         self.compute_adjacency_matrix()
 
