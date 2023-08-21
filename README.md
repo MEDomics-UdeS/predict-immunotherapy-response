@@ -3,7 +3,7 @@ This project contains the code which predicts response to immune checkpoint inhi
 
 This project is in collaboration with the *MEDomics UdeS* laboratory from the Université de Sherbrooke, and a biology laboratory of the Université de Sherbrooke.
 
-The internship report is available on : https://bit.ly/3KBhwb2 
+_The internship report is available [HERE](https://bit.ly/3OBX0bi)._
 
 ## Project summary
 The goal of this project is to create a machine learning model which **predicts immune checkpoint inhibitor treatment response for patients suffering from cancers**. For that, we collected data from the following article https://doi.org/10.1158/1078-0432.CCR-20-1163, which contains 82 patients with 6 features called biomarkers (age, exome TMB, genome TMB, CD8+ T cell score, M1M2 expression, CD274 expression), and we added new features / biomarkers called mutational signatures (SBS and INDEL). We want to know if the addition of mutational signatures gives better performances. Data are available in the `data/` folder of this repository.
